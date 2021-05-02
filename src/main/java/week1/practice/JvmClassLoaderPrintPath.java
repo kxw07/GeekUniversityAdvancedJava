@@ -1,4 +1,4 @@
-package week1;
+package week1.practice;
 
 import com.google.gson.Gson;
 

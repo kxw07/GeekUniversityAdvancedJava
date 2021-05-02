@@ -1,4 +1,4 @@
-package week1;
+package week1.practice;
 
 public class HelloByteCode {
 
