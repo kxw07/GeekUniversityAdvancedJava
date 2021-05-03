@@ -3,13 +3,15 @@ package week1.homework.memory_parameters;
 public class MemoryTest {
 //    javac week1/homework/memory_parameters/MemoryTest.java
 //    java -Xss160k week1/homework/memory_parameters/MemoryTest
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Thread thread1 = new Thread(new TestStack("Thread1"));
         Thread thread2 = new Thread(new TestStack("Thread2"));
         Thread thread3 = new Thread(new TestStack("Thread3"));
         Thread thread4 = new Thread(new TestStack("Thread4"));
 
         thread1.start();
+        Thread.sleep(5000L);
+
         thread2.start();
         thread3.start();
         thread4.start();
