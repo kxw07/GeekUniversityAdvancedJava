@@ -1,4 +1,4 @@
-package week2.practice;
+package week2.practice.gclog_analysis;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
