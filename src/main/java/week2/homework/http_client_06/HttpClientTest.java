@@ -10,7 +10,7 @@ import java.io.IOException;
 public class HttpClientTest {
     public static void main(String[] args) {
         HttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet("http://localhost:8801");
+        HttpGet httpGet = new HttpGet("http://localhost:8801/test");
 
         try {
             HttpResponse httpResponse = httpClient.execute(httpGet);
