@@ -1,6 +1,17 @@
 根据上述自己对于 1 和 2 的演示，写一段对于不同 GC 和堆内存的总结
 ===
 ---
+-XX:+UseSerialGC
+
+JDK 8 default
+-XX:+UseParallelGC
+
+JDK 9~16
+-XX:+UseG1GC -XX:MaxGCPauseMillis=50
+
+-XX:+UseConcMarkSweepGC
+
+---
 ### 在 Heap Size 較小時 (Xmx512m, Xms512m)：
 
 GC 次數：
