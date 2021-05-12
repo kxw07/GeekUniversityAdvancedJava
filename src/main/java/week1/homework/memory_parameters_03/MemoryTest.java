@@ -1,4 +1,4 @@
-package week1.homework.memory_parameters;
+package week1.homework.memory_parameters_03;
 
 public class MemoryTest {
 //    javac week1/homework/memory_parameters/MemoryTest.java

@@ -1,4 +1,4 @@
-package week1.homework.classloader;
+package week1.homework.classloader_02;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
