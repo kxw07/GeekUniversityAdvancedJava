@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 public class HelloClassLoader extends ClassLoader {
     public static void main(String[] args) {
         try {
-            Object obj = new HelloClassLoader().findClass("Hello").newInstance();
+            Object obj = new HelloClassLoader().loadClass("Hello").newInstance();
             Method method = obj.getClass().getMethod("hello");
             method.invoke(obj);
         } catch (ClassNotFoundException e) {
