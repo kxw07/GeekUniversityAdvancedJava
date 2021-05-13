@@ -12,21 +12,28 @@ public class HelloClassLoader extends ClassLoader {
             Object obj = new HelloClassLoader().loadClass("Hello").newInstance();
             Method method = obj.getClass().getMethod("hello");
             method.invoke(obj);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch (NoSuchMethodException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
+
     }
 
-    @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
+    public Class findClass(String name) throws ClassNotFoundException {
+        System.out.println("=== findClass ===");
+        byte[] b = loadClassData(name);
+        return defineClass(name, b, 0, b.length);
+    }
+
+    private byte[] loadClassData(String name) throws ClassNotFoundException {
+        System.out.println("=== loadClassData ===");
         try (InputStream inputStream = Files.newInputStream(Paths.get("Hello.xlass"))) {
             StringBuilder hex = new StringBuilder();
 
@@ -35,7 +42,7 @@ public class HelloClassLoader extends ClassLoader {
                 hex.append(String.format("%02x", 255 - value));
             }
 
-            return defineClass(name, hex2Byte(hex.toString()), 0, hex2Byte(hex.toString()).length);
+            return hex2Byte(hex.toString());
         } catch (Exception e) {
             throw new ClassNotFoundException(e.getMessage(), e);
         }
