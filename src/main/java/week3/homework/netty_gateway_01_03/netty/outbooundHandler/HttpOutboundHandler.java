@@ -3,31 +3,39 @@ package week3.homework.netty_gateway_01_03.netty.outbooundHandler;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.*;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import week3.homework.netty_gateway_01_03.netty.filter.HttpHeaderResponseFilter;
 import week3.homework.netty_gateway_01_03.netty.filter.ResponseHeaderFilter;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
-import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
+import static io.netty.handler.codec.http.HttpResponseStatus.NO_CONTENT;
+import static io.netty.handler.codec.http.HttpResponseStatus.OK;
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class HttpOutboundHandler implements OutboundHandler {
-    private final String backendURL;
     private final ResponseHeaderFilter responseHeaderFilter;
     private final CloseableHttpAsyncClient httpClient;
     private final ExecutorService executorService;
+    private final RandomHttpEndpoint randomHttpEndpoint;
 
-    public HttpOutboundHandler(String backendURL) {
-        this.backendURL = backendURL;
+    public HttpOutboundHandler() {
+        String backendServers = System.getProperty("backendServers","http://localhost:9001,http://localhost:9002");
+        this.randomHttpEndpoint = new RandomHttpEndpoint(Arrays.asList(backendServers.split(",")));
+
         this.responseHeaderFilter = new HttpHeaderResponseFilter();
         int cores = Runtime.getRuntime().availableProcessors();
         this.executorService = Executors.newFixedThreadPool(cores * 2);
@@ -54,7 +62,9 @@ public class HttpOutboundHandler implements OutboundHandler {
     }
 
     private void handleRequest(FullHttpRequest fullHttpRequest, ChannelHandlerContext ctx) {
-        HttpGet httpGet = new HttpGet(this.backendURL + fullHttpRequest.uri());
+        System.out.println("handleRequest, url:" + randomHttpEndpoint.getRandomEndpoint() + fullHttpRequest.uri());
+        HttpGet httpGet = new HttpGet(randomHttpEndpoint.getRandomEndpoint() + fullHttpRequest.uri());
+        httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_KEEP_ALIVE);
         httpGet.setHeader("proxy", "netty_proxy");
 
         httpClient.execute(httpGet, new FutureCallback<HttpResponse>() {
@@ -63,6 +73,7 @@ public class HttpOutboundHandler implements OutboundHandler {
                 try {
                     handleResponse(fullHttpRequest, ctx, httpResponse);
                 } catch (Exception e) {
+                    System.out.println("handleResponse error:" + e.getMessage());
                     e.printStackTrace();
                 } finally {
 
@@ -83,29 +94,31 @@ public class HttpOutboundHandler implements OutboundHandler {
     }
 
     public void handleResponse(FullHttpRequest fullHttpRequest, ChannelHandlerContext ctx, HttpResponse httpResponse) {
-
         FullHttpResponse fullHttpResponse = null;
 
         try {
             byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
-            fullHttpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.wrappedBuffer(body));
+            fullHttpResponse = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(body));
             fullHttpResponse.headers().set("Content-Type", "application/json");
-            fullHttpResponse.headers().setInt("Content-Length", fullHttpResponse.content().readableBytes());
+            fullHttpResponse.headers().setInt("Content-Length", Integer.parseInt(httpResponse.getFirstHeader("Content-Length").getValue()));
+
             responseHeaderFilter.filter(fullHttpResponse, ctx);
         } catch (Exception e) {
-            System.out.println("handleResponse failed");
+            System.out.println("handleResponse error:" + e.getMessage());
             e.printStackTrace();
 
-            fullHttpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.NO_CONTENT);
+            fullHttpResponse = new DefaultFullHttpResponse(HTTP_1_1, NO_CONTENT);
         } finally {
             if (fullHttpRequest != null) {
                 if (!HttpUtil.isKeepAlive(fullHttpRequest)) {
+                    System.out.println("handleResponse is not keep alive");
                     ctx.write(fullHttpResponse).addListener(ChannelFutureListener.CLOSE);
                 } else {
-                    fullHttpResponse.headers().set(CONNECTION, KEEP_ALIVE);
-                    ctx.write(fullHttpResponse);
+                    System.out.println("handleResponse is keep alive");
+                    ctx.write(fullHttpResponse).addListener(ChannelFutureListener.CLOSE);
                 }
             }
+            ctx.flush();
         }
     }
 }

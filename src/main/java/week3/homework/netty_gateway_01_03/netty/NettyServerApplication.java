@@ -10,7 +10,7 @@ public class NettyServerApplication {
         try {
             httpInboundServer.run();
         } catch (Exception e) {
-            System.out.println("Start Netty server error");
+            System.out.println("Start Netty server error:" + e.getMessage());
             e.printStackTrace();
         }
     }

@@ -9,9 +9,8 @@ import java.util.concurrent.Executors;
 
 public class ThreadPool {
     public static void main(String[] args) throws IOException {
-        System.out.println("Runtime.getRuntime().availableProcessors(): " + Runtime.getRuntime().availableProcessors());
-        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 2);
-        ServerSocket serverSocket = new ServerSocket(8801);
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+        ServerSocket serverSocket = new ServerSocket(9002);
         while (true) {
             try {
                 final Socket socket = serverSocket.accept();
@@ -27,12 +26,13 @@ public class ThreadPool {
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
             printWriter.println("HTTP/1.1 200 OK");
             printWriter.println("Content-Type:text/html;charset=utf-8");
-            String body = "Hello, nio1";
+            String body = "Hello, ThreadPool";
             printWriter.println("Content-Length:" + body.getBytes().length);
             printWriter.println();
             printWriter.println(body);
             printWriter.close();
             socket.close();
+            System.out.println("ThreadPool service end");
         } catch (IOException e) {
             e.printStackTrace();
         }
