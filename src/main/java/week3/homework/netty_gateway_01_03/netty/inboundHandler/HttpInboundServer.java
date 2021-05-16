@@ -39,7 +39,7 @@ public class HttpInboundServer {
                     .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new HttpInboundInitializer());
 
             Channel ch = serverBootstrap.bind(port).sync().channel();
-            System.out.println("Start Netty Server, url is: http://127.0.0.1:" + port);
+            System.out.println("Start Netty Server: http://127.0.0.1:" + port);
 
             ch.closeFuture().sync();
         } finally {

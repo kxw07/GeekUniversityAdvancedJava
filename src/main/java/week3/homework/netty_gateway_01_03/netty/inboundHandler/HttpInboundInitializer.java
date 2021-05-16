@@ -6,7 +6,8 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
-import week3.homework.netty_gateway_01_03.netty.inboundHandler.HttpInboundHandler;
+import week3.homework.netty_gateway_01_03.netty.filter.HttpHeaderRequestFilter;
+import week3.homework.netty_gateway_01_03.netty.outbooundHandler.HttpOutboundHandler;
 
 public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 
@@ -15,6 +16,6 @@ public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
         ChannelPipeline channelPipeline = socketChannel.pipeline();
         channelPipeline.addLast(new HttpServerCodec());
         channelPipeline.addLast(new HttpObjectAggregator(1024 * 1024));
-        channelPipeline.addLast(new HttpInboundHandler());
+        channelPipeline.addLast(new HttpInboundHandler(new HttpOutboundHandler("http://127.0.0.1:9000"), new HttpHeaderRequestFilter()));
     }
 }
