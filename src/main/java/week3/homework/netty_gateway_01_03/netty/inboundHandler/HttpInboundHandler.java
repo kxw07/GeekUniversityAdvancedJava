@@ -1,4 +1,4 @@
-package week3.practice.netty;
+package week3.homework.netty_gateway_01_03.netty.inboundHandler;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
 
-public class HttpHandler extends ChannelInboundHandlerAdapter {
+public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {

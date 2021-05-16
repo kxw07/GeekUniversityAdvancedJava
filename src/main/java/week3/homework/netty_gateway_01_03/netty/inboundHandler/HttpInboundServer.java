@@ -1,4 +1,4 @@
-package week3.practice.netty;
+package week3.homework.netty_gateway_01_03.netty.inboundHandler;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -9,17 +9,18 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
-public class NettyServerApplication {
-    public static void main(String[] args) throws Exception {
-        new NettyServerApplication().run();
+public class HttpInboundServer {
+    EventLoopGroup bossGroup;
+    EventLoopGroup workerGroup;
+    int port;
+
+    public HttpInboundServer(int port, int bossGroupThreads, int workerGroupThreads) {
+        this.bossGroup = new NioEventLoopGroup(bossGroupThreads);
+        this.workerGroup = new NioEventLoopGroup(workerGroupThreads);
+        this.port = port;
     }
 
-    public void run() {
-        EventLoopGroup bossGroup = new NioEventLoopGroup(3);
-        EventLoopGroup workerGroup = new NioEventLoopGroup(1000);
-
-        int port = 8801;
-
+    public void run() throws InterruptedException {
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.option(ChannelOption.SO_BACKLOG, 128) // 最大半連接數量
@@ -34,17 +35,16 @@ public class NettyServerApplication {
 
             System.out.println("set options done");
 
-            serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
-                    .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new HttpInitializer());
+            serverBootstrap.group(this.bossGroup, this.workerGroup).channel(NioServerSocketChannel.class)
+                    .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new HttpInboundInitializer());
 
             Channel ch = serverBootstrap.bind(port).sync().channel();
-            System.out.println("Start Netty Server, url is: http://127.0.0.1:" + 8801);
+            System.out.println("Start Netty Server, url is: http://127.0.0.1:" + port);
+
             ch.closeFuture().sync();
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
+            this.bossGroup.shutdownGracefully();
+            this.workerGroup.shutdownGracefully();
         }
     }
 }
