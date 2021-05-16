@@ -3,11 +3,11 @@ package week3.practice.sync;
 public class NormalCounter {
     private int count = 0;
 
-    public void increaseCount() {
+    public void increase() {
         count = count + 1;
     }
 
-    public int getCount() {
+    public int get() {
         return count;
     }
 }
