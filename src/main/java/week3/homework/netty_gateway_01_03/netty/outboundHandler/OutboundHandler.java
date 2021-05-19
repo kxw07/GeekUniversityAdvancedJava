@@ -1,4 +1,4 @@
-package week3.homework.netty_gateway_01_03.netty.outbooundHandler;
+package week3.homework.netty_gateway_01_03.netty.outboundHandler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;

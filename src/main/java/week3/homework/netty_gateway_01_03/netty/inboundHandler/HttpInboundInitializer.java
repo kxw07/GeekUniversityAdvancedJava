@@ -6,7 +6,7 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
-import week3.homework.netty_gateway_01_03.netty.outbooundHandler.HttpOutboundHandler;
+import week3.homework.netty_gateway_01_03.netty.outboundHandler.HttpOutboundHandler;
 
 public class HttpInboundInitializer extends ChannelInitializer<SocketChannel> {
 

@@ -1,4 +1,4 @@
-package week3.homework.netty_gateway_01_03.netty.outbooundHandler;
+package week3.homework.netty_gateway_01_03.netty.outboundHandler;
 
 import java.util.List;
 import java.util.Random;
