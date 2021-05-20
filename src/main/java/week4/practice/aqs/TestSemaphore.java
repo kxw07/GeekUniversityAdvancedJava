@@ -4,7 +4,7 @@ import java.util.stream.IntStream;
 
 public class TestSemaphore {
     public static void main(String[] args) {
-        int loop_number = 1_000_000;
+        int loop_number = 100_000;
 
         SemaphoreCounter semaphoreCounter = new SemaphoreCounter();
         IntStream.range(0, loop_number).parallel().forEach(idx -> {
