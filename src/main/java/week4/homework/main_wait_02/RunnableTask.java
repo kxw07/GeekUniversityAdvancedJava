@@ -15,16 +15,12 @@ public class RunnableTask implements Runnable {
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        CustomThreadFactory customThreadFactory = new CustomThreadFactory();
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
-                1, 1, 1,
-                TimeUnit.MINUTES, new LinkedBlockingDeque<>(10), customThreadFactory
-        );
+        ThreadPoolExecutor threadPoolExecutor = new CustomThreadPoolExecutor().getThreadPoolExecutor();
         Future<String> future = threadPoolExecutor.submit(new RunnableTask(), "RunnableTaskResult");
 
         System.out.println("Main Thread Waiting...");
         String result = future.get();
-        System.out.println("Future result:" + result);
+        System.out.println("Future Result: " + result);
 
 
         System.out.println("End of Main Thread");

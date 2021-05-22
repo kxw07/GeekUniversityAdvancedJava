@@ -17,7 +17,7 @@ public class CallableTask implements Callable<String> {
 
         System.out.println("Main Thread Waiting...");
         String result = future.get();
-        System.out.println("Future result:" + result);
+        System.out.println("Future Result: " + result);
 
 
         System.out.println("End of Main Thread");
