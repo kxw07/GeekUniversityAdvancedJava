@@ -2,6 +2,7 @@ package week5.practice.spring_app;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import week5.practice.spring_app.iml.ISchool;
 import week5.practice.spring_app.obj.Klass;
 import week5.practice.spring_app.obj.School;
 import week5.practice.spring_app.obj.Student;
@@ -19,7 +20,11 @@ public class SpringApp {
         System.out.println(class01);
         class01.dong();
 
-        School school = (School) applicationContext.getBean("school");
+        ISchool school = applicationContext.getBean(ISchool.class);
+        System.out.println(school);
         school.ding();
+        System.out.println("School real class: " + school.getClass());
+
+
     }
 }
