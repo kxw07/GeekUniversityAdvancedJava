@@ -28,9 +28,10 @@
     <bean id="school" class="week5.practice.spring_app.obj.School"/>
 
     <bean id="aop1" class="week5.practice.spring_app.aop.Aop1"/>
+    <bean id="aop2" class="week5.practice.spring_app.aop.Aop2"/>
 
-<!--    <aop:aspectj-autoproxy proxy-target-class="true"/>-->
-    <aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+<!--    <aop:aspectj-autoproxy/>-->
     <aop:config>
         <aop:pointcut id="p1" expression="execution(* week5.practice.spring_app.iml.*.*(..))"/>
         <aop:aspect ref="aop1">
