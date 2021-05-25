@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
-        "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-<beans>
     <bean id="student001" class="week5.practice.spring_app.obj.Student">
         <property name="id" value="001"/>
         <property name="name" value="Jack"/>
@@ -13,4 +15,15 @@
         <property name="name" value="Linda"/>
     </bean>
 
+    <bean id="class01" class="week5.practice.spring_app.obj.Klass">
+        <property name="students">
+            <list>
+                <ref bean="student001"/>
+                <ref bean="student002"/>
+            </list>
+        </property>
+    </bean>
+
+    <context:component-scan base-package="week5.practice.spring_app"/>
+    <bean id="school" class="week5.practice.spring_app.obj.School"/>
 </beans>
