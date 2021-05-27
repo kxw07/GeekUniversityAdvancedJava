@@ -1,4 +1,4 @@
-package week5.practice.spring_app.aop;
+package week5.practice.spring.aop.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 

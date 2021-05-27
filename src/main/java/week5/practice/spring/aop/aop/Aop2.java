@@ -1,4 +1,4 @@
-package week5.practice.spring_app.aop;
+package week5.practice.spring.aop.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.*;
 @Aspect
 public class Aop2 {
 
-    @Pointcut(value = "execution(* week5.practice.spring_app.obj.*.*dong(..))")
+    @Pointcut(value = "execution(* week5.practice.spring.aop.obj.*.*dong(..))")
     public void point() {
 
     }

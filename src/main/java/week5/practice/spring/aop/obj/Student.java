@@ -1,4 +1,4 @@
-package week5.practice.spring_app.obj;
+package week5.practice.spring.aop.obj;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

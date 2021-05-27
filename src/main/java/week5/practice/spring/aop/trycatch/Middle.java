@@ -1,4 +1,4 @@
-package week5.practice.spring_app.trycatch;
+package week5.practice.spring.aop.trycatch;
 
 public class Middle {
     private Bottom bottom;

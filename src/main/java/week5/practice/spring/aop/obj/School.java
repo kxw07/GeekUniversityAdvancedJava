@@ -1,8 +1,8 @@
-package week5.practice.spring_app.obj;
+package week5.practice.spring.aop.obj;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import week5.practice.spring_app.iml.ISchool;
+import week5.practice.spring.aop.iml.ISchool;
 
 import javax.annotation.Resource;
 

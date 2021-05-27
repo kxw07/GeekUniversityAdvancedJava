@@ -5,17 +5,17 @@
        xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <bean id="student001" class="week5.practice.spring_app.obj.Student">
+    <bean id="student001" class="week5.practice.spring.aop.obj.Student">
         <property name="id" value="001"/>
         <property name="name" value="Jack"/>
     </bean>
 
-    <bean id="student002" class="week5.practice.spring_app.obj.Student">
+    <bean id="student002" class="week5.practice.spring.aop.obj.Student">
         <property name="id" value="002"/>
         <property name="name" value="Linda"/>
     </bean>
 
-    <bean id="class01" class="week5.practice.spring_app.obj.Klass">
+    <bean id="class01" class="week5.practice.spring.aop.obj.Klass">
         <property name="students">
             <list>
                 <ref bean="student001"/>
@@ -25,15 +25,15 @@
     </bean>
 
     <context:component-scan base-package="week5.practice.spring_app"/>
-    <bean id="school" class="week5.practice.spring_app.obj.School"/>
+    <bean id="school" class="week5.practice.spring.aop.obj.School"/>
 
-    <bean id="aop1" class="week5.practice.spring_app.aop.Aop1"/>
-    <bean id="aop2" class="week5.practice.spring_app.aop.Aop2"/>
+    <bean id="aop1" class="week5.practice.spring.aop.aop.Aop1"/>
+    <bean id="aop2" class="week5.practice.spring.aop.aop.Aop2"/>
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 <!--    <aop:aspectj-autoproxy/>-->
     <aop:config>
-        <aop:pointcut id="p1" expression="execution(* week5.practice.spring_app.iml.*.*(..))"/>
+        <aop:pointcut id="p1" expression="execution(* week5.practice.spring.aop.iml.*.*(..))"/>
         <aop:aspect ref="aop1">
             <aop:around method="around" pointcut-ref="p1"/>
             <aop:before method="startTransaction" pointcut-ref="p1"/>
@@ -42,7 +42,7 @@
     </aop:config>
 
 <!--    <aop:config>-->
-<!--        <aop:pointcut id="p2" expression="execution(* week5.practice.spring_app.obj.*.*dong(..))"/>-->
+<!--        <aop:pointcut id="p2" expression="execution(* week5.practice.spring.aop.obj.*.*dong(..))"/>-->
 <!--        <aop:aspect ref="aop2">-->
 <!--            <aop:around method="around" pointcut-ref="p2"/>-->
 <!--            <aop:before method="before" pointcut-ref="p2"/>-->

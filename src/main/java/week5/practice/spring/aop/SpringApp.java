@@ -1,10 +1,10 @@
-package week5.practice.spring_app;
+package week5.practice.spring.aop;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import week5.practice.spring_app.iml.ISchool;
-import week5.practice.spring_app.obj.Klass;
-import week5.practice.spring_app.obj.Student;
+import week5.practice.spring.aop.iml.ISchool;
+import week5.practice.spring.aop.obj.Klass;
+import week5.practice.spring.aop.obj.Student;
 
 public class SpringApp {
     public static void main(String[] args) {
