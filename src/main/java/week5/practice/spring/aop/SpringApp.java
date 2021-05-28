@@ -8,7 +8,7 @@ import week5.practice.spring.aop.obj.Student;
 
 public class SpringApp {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.spring.app.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.spring.aop.xml");
         System.out.println("=======================");
         System.out.println("(Student) applicationContext.getBean(\"student001\")");
         Student student001 = (Student) applicationContext.getBean("student001");
