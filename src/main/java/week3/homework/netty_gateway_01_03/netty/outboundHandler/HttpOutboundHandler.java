@@ -32,8 +32,7 @@ public class HttpOutboundHandler implements OutboundHandler {
     private final ExecutorService executorService;
     private final RandomHttpEndpoint randomHttpEndpoint;
 
-    public HttpOutboundHandler() {
-        String backendServers = System.getProperty("backendServers","http://localhost:9001,http://localhost:9002");
+    public HttpOutboundHandler(String backendServers) {
         this.randomHttpEndpoint = new RandomHttpEndpoint(Arrays.asList(backendServers.split(",")));
 
         this.responseHeaderFilter = new HttpHeaderResponseFilter();

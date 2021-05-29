@@ -13,11 +13,13 @@ public class HttpInboundServer {
     EventLoopGroup bossGroup;
     EventLoopGroup workerGroup;
     int port;
+    HttpInboundHandler httpInboundHandler;
 
-    public HttpInboundServer(int port, int bossGroupThreads, int workerGroupThreads) {
+    public HttpInboundServer(int port, int bossGroupThreads, int workerGroupThreads, HttpInboundHandler httpInboundHandler) {
         this.bossGroup = new NioEventLoopGroup(bossGroupThreads);
         this.workerGroup = new NioEventLoopGroup(workerGroupThreads);
         this.port = port;
+        this.httpInboundHandler = httpInboundHandler;
     }
 
     public void run() throws InterruptedException {
@@ -36,7 +38,7 @@ public class HttpInboundServer {
             System.out.println("set options done");
 
             serverBootstrap.group(this.bossGroup, this.workerGroup).channel(NioServerSocketChannel.class)
-                    .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new HttpInboundInitializer());
+                    .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new HttpInboundInitializer(this.httpInboundHandler));
 
             Channel ch = serverBootstrap.bind(port).sync().channel();
             System.out.println("Start Netty Server: http://127.0.0.1:" + port);
