@@ -15,7 +15,6 @@ import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import week3.homework.netty_gateway_01_03.netty.filter.HttpHeaderResponseFilter;
 import week3.homework.netty_gateway_01_03.netty.filter.ResponseHeaderFilter;
 
 import java.util.Arrays;
@@ -27,15 +26,15 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class HttpOutboundHandler implements OutboundHandler {
-    private final ResponseHeaderFilter responseHeaderFilter;
+    private final ResponseHeaderFilter[] responseHeaderFilter;
     private final CloseableHttpAsyncClient httpClient;
     private final ExecutorService executorService;
     private final RandomHttpEndpoint randomHttpEndpoint;
 
-    public HttpOutboundHandler(String backendServers) {
+    public HttpOutboundHandler(String backendServers, ResponseHeaderFilter[] filters) {
         this.randomHttpEndpoint = new RandomHttpEndpoint(Arrays.asList(backendServers.split(",")));
+        this.responseHeaderFilter = filters;
 
-        this.responseHeaderFilter = new HttpHeaderResponseFilter();
         int cores = Runtime.getRuntime().availableProcessors();
         this.executorService = Executors.newFixedThreadPool(cores * 2);
 
@@ -49,7 +48,7 @@ public class HttpOutboundHandler implements OutboundHandler {
         httpClient = HttpAsyncClients.custom().setMaxConnTotal(40)
                 .setMaxConnPerRoute(8)
                 .setDefaultIOReactorConfig(ioConfig)
-                .setKeepAliveStrategy((response,context) -> 6000)
+                .setKeepAliveStrategy((response, context) -> 6000)
                 .build();
 
         httpClient.start();
@@ -101,7 +100,9 @@ public class HttpOutboundHandler implements OutboundHandler {
             fullHttpResponse.headers().set("Content-Type", "application/json");
             fullHttpResponse.headers().setInt("Content-Length", Integer.parseInt(httpResponse.getFirstHeader("Content-Length").getValue()));
 
-            responseHeaderFilter.filter(fullHttpResponse, ctx);
+            for (ResponseHeaderFilter responseHeaderFilter : this.responseHeaderFilter) {
+                responseHeaderFilter.filter(fullHttpResponse, ctx);
+            }
         } catch (Exception e) {
             System.out.println("handleResponse error:" + e.getMessage());
             e.printStackTrace();

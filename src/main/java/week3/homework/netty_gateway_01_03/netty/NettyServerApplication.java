@@ -1,15 +1,22 @@
 package week3.homework.netty_gateway_01_03.netty;
 
+import week3.homework.netty_gateway_01_03.netty.filter.HttpHeaderRequestFilter;
+import week3.homework.netty_gateway_01_03.netty.filter.HttpHeaderResponseFilter;
+import week3.homework.netty_gateway_01_03.netty.filter.RequestHeaderFilter;
+import week3.homework.netty_gateway_01_03.netty.filter.ResponseHeaderFilter;
 import week3.homework.netty_gateway_01_03.netty.inboundHandler.HttpInboundHandler;
 import week3.homework.netty_gateway_01_03.netty.inboundHandler.HttpInboundServer;
 import week3.homework.netty_gateway_01_03.netty.outboundHandler.HttpOutboundHandler;
 
 public class NettyServerApplication {
     public static void main(String[] args) throws Exception {
-        String backendServers = System.getProperty("backendServers","http://localhost:9001,http://localhost:9002");
+        String backendServers = System.getProperty("backendServers", "http://localhost:9001,http://localhost:9002");
 
-        HttpOutboundHandler httpOutboundHandler = new HttpOutboundHandler(backendServers);
-        HttpInboundHandler httpInboundHandler = new HttpInboundHandler(httpOutboundHandler);
+        RequestHeaderFilter[] requestHeaderFilters = new RequestHeaderFilter[]{new HttpHeaderRequestFilter()};
+        ResponseHeaderFilter[] responseHeaderFilters = new ResponseHeaderFilter[]{new HttpHeaderResponseFilter()};
+
+        HttpOutboundHandler httpOutboundHandler = new HttpOutboundHandler(backendServers, responseHeaderFilters);
+        HttpInboundHandler httpInboundHandler = new HttpInboundHandler(httpOutboundHandler, requestHeaderFilters);
 
         HttpInboundServer httpInboundServer = new HttpInboundServer(8801, 3, 1000, httpInboundHandler);
 
