@@ -5,6 +5,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class JMSReceiver {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.spring.mq.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.prac.spring.mq.xml");
     }
 }

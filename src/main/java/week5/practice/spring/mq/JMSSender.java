@@ -10,7 +10,7 @@ public class JMSSender {
         student.setId(456);
         student.setName("Tom");
 
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.spring.mq.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.prac.spring.mq.xml");
 
         JMSSendService jmsSendService = (JMSSendService) applicationContext.getBean("JMSSendService");
         jmsSendService.send(student);
