@@ -8,7 +8,7 @@ import week5.homework.bean_02.obj.Moto;
 
 public class CheckBean {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.homework.spring.bean.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.homework.spring.bean_02.xml");
 
         Bike bike01 = (Bike) applicationContext.getBean("bike01");
         System.out.println("bike01: " + bike01);

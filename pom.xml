@@ -80,5 +80,16 @@
             <artifactId>spring-boot-starter-activemq</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>kxw07.github.starter</groupId>
+            <artifactId>kxw07-spring-boot-starter</artifactId>
+            <version>1.14-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 </project>
