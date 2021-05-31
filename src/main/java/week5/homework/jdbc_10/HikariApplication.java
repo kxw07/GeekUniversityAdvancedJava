@@ -1,8 +1,14 @@
 package week5.homework.jdbc_10;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HikariApplication {
 
@@ -13,49 +19,50 @@ public class HikariApplication {
         hikariDataSource.setPassword("aaaa1234");
         hikariDataSource.setMaximumPoolSize(5);
 
-        Connection connection = hikariDataSource.getConnection();
-        PreparedStatement preparedStatement = null;
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(hikariDataSource);
         try {
-            connection.setAutoCommit(false);
-
             String insertData = "INSERT INTO TEST_TABLE(NAME, PHONE) VALUES(?, ?);";
-            preparedStatement = connection.prepareStatement(insertData);
-            preparedStatement.setString(1, "John");
-            preparedStatement.setString(2, "88888888");
-            preparedStatement.addBatch();
+            List<HashMap<String, String>> paramMaps = new ArrayList<>();
+            paramMaps.add(new HashMap<String, String>() {{
+                              put("name", "John");
+                              put("phone", "88888888");
+                          }}
+            );
 
-            preparedStatement.setString(1, "Leo");
-            preparedStatement.setString(2, "77777777");
-            preparedStatement.addBatch();
+            paramMaps.add(new HashMap<String, String>() {{
+                              put("name", "Leo");
+                              put("phone", "77777777");
+                          }}
+            );
 
-            preparedStatement.setString(1, "Linda");
-            preparedStatement.setString(2, "66666666");
-            preparedStatement.addBatch();
+            paramMaps.add(new HashMap<String, String>() {{
+                              put("name", "Linda");
+                              put("phone", "66666666");
+                          }}
+            );
 
+            jdbcTemplate.batchUpdate(insertData, new BatchPreparedStatementSetter() {
 
-            int[] numUpdates = preparedStatement.executeBatch();
-            for (int i = 0; i < numUpdates.length; i++) {
-                if (numUpdates[i] <= 0)
-                    System.out.println("Execution " + i + ": unknown number of rows updated");
-            }
+                @Override
+                public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                    HashMap<String, String> m = paramMaps.get(i);
+                    preparedStatement.setString(1, m.get("name"));
+                    preparedStatement.setString(2, m.get("phone"));
+                }
 
-            connection.commit();
+                @Override
+                public int getBatchSize() {
+                    return paramMaps.size();
+                }
+            });
 
-            connection.setAutoCommit(true);
             String readData = "SELECT NAME, PHONE FROM TEST_TABLE;";
-            preparedStatement = connection.prepareStatement(readData);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                System.out.println("NAME: " + rs.getString("NAME"));
-                System.out.println("PHONE: " + rs.getString("PHONE"));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            connection.rollback();
+            List<Map<String, Object>> resultList = jdbcTemplate.queryForList(readData);
+            resultList.stream().forEach(idx -> {
+                System.out.println(idx);
+            });
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            connection.close();
-            preparedStatement.close();
         }
     }
 }
