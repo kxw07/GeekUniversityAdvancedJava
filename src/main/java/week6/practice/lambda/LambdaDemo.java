@@ -2,9 +2,9 @@ package week6.practice.lambda;
 
 public class LambdaDemo {
     public static void main(String[] args) {
-        TwoSum ts = new TwoSum() {
+        TwoSum ts = new TwoSum<Integer>() {
             @Override
-            public Object operate(int a, int b) {
+            public Integer operate(int a, int b) {
                 return a + b;
             }
         };
