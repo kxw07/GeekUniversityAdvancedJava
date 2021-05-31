@@ -13,15 +13,27 @@ public class JDBCPreparedStatement {
         PreparedStatement preparedStatement = null;
         try {
             connection.setAutoCommit(false);
-            String createTable = "CREATE TABLE IF NOT EXISTS TEST_TABLE ( NAME varchar , PHONE varchar );";
-            preparedStatement = connection.prepareStatement(createTable);
-            preparedStatement.execute();
 
             String insertData = "INSERT INTO TEST_TABLE(NAME, PHONE) VALUES(?, ?);";
             preparedStatement = connection.prepareStatement(insertData);
             preparedStatement.setString(1, "John");
             preparedStatement.setString(2, "88888888");
-            preparedStatement.execute();
+            preparedStatement.addBatch();
+
+            preparedStatement.setString(1, "Leo");
+            preparedStatement.setString(2, "77777777");
+            preparedStatement.addBatch();
+
+            preparedStatement.setString(1, "Linda");
+            preparedStatement.setString(2, "66666666");
+            preparedStatement.addBatch();
+
+
+            int[] numUpdates = preparedStatement.executeBatch();
+            for (int i = 0; i < numUpdates.length; i++) {
+                if (numUpdates[i] <= 0)
+                    System.out.println("Execution " + i + ": unknown number of rows updated");
+            }
 
             connection.commit();
 
