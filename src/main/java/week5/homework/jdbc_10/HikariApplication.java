@@ -1,4 +1,4 @@
-package week5.homework.jdbc_10.origin_01;
+package week5.homework.jdbc_10;
 
 import com.zaxxer.hikari.HikariDataSource;
 
