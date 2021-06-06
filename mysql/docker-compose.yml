@@ -9,6 +9,8 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: "aaaa1234"
+      MYSQL_USER: "kxw07"
+      MYSQL_PASSWORD: "aaaa1234"
     volumes:
       - /Users/kai/dojo/java/GeekUniversityAdvancedJava/mysql/data:/var/lib/mysql
 
