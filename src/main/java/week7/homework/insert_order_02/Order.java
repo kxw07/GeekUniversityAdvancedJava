@@ -1,7 +1,9 @@
-package week7.homework;
+package week7.homework.insert_order_02;
 
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -12,8 +14,10 @@ public class Order {
     private double order_price;
     private String deliver_address;
     private int is_paid;
-    private int is_canceled;
     private int is_delivered;
+    private int is_canceled;
     private long create_time;
     private long update_time;
+
+    private List<OrderDetail> orderDetailList;
 }

@@ -1,4 +1,4 @@
-package week7.homework;
+package week7.homework.insert_order_02;
 
 import lombok.Builder;
 import lombok.Data;
