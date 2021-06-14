@@ -15,11 +15,19 @@ public class InsertOrder_02 {
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(hikariDataSource);
         try {
-            String sql = "SELECT * FROM SHOP_ORDER";
-            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
-            System.out.println(list.size());
+
+            System.out.println(Integer.MAX_VALUE);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static void prepareOrder() {
+        int orderSize = 1_000_000;
+
+
+
     }
 }
