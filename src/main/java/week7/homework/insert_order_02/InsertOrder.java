@@ -14,7 +14,7 @@ public class InsertOrder {
     public static void main(String[] args) {
         try {
 //            insertSingle(); // Cost time(s):606
-            insertBatch(); // Cost time(s):11
+            insertBatch(); // Cost time(s):161
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,6 +69,7 @@ public class InsertOrder {
                 ps2.execute();
 
                 connection.commit();
+                connection.setAutoCommit(true);
             } catch (Exception e) {
                 connection.rollback();
                 e.printStackTrace();
@@ -119,7 +120,7 @@ public class InsertOrder {
                 ps1.setLong(8, orderList.get(idx).getCreate_time());
                 ps1.setLong(9, orderList.get(idx).getUpdate_time());
             }
-            ps1.execute();
+            ps1.executeBatch();
 
             String orderDetail_sql = " insert into SHOP_ORDER_DETAIL " +
                     " (order_id, product_id, order_quantity, create_time, update_time) " +
@@ -138,9 +139,10 @@ public class InsertOrder {
                 ps2.setLong(5, orderList.get(idx).getOrderDetailList().get(0).getUpdate_time());
             }
 
-            ps2.execute();
+            ps2.executeBatch();
 
             connection.commit();
+            connection.setAutoCommit(true);
         } catch (Exception e) {
             connection.rollback();
             e.printStackTrace();
