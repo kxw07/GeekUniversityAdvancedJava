@@ -1,3 +1,5 @@
 .idea/*
 target/*
-mysql/data/*
+mysql_docker/data/*
+mysql/mysql1/data/*
+mysql/mysql2/data/*

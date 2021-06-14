@@ -1,0 +1,34 @@
+kxw07:
+  example:
+    enabled: true
+    host: 123.456.789.0
+    port: 5566
+    student:
+      enabled: true
+      id: stu001
+      name: Jack
+    klass:
+      enabled: true
+      name: AKlass
+      students:
+        - enabled: true
+          id: stu002
+          name: John
+        - enabled: true
+          id: stu003
+          name: Tom
+    school:
+      enabled: true
+      klasses:
+        - name: BKlass
+          students:
+            - id: stu101
+              name: Jerry
+            - id: stu102
+              name: Gary
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
