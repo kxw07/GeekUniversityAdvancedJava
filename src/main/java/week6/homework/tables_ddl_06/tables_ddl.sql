@@ -30,7 +30,6 @@ create table java_course.SHOP_PRODUCT
     DESCRIPTION varchar(256) null,
     PRODUCT_PRICE decimal(14,4) not null,
     WAREHOUSE_ID varchar(16) not null,
-    WAREHOUSE_QUANTITY int not null,
     CREATE_TIME bigint not null,
     UPDATE_TIME bigint not null
 );
@@ -56,4 +55,16 @@ create table java_course.SHOP_WAREHOUSE
     CREATE_TIME bigint not null,
     UPDATE_TIME bigint not null
 );
+
+create table java_course.SHOP_WAREHOUSE_STACK
+(
+    WAREHOUSE_ID varchar(16) not null,
+    PRODUCT_ID varchar(16) not null,
+    PRODUCT_QUANTITY int not null,
+    CREATE_TIME bigint not null,
+    UPDATE_TIME bigint not null,
+    constraint SHOP_WAREHOUSE_STACK_pk
+        unique (WAREHOUSE_ID, PRODUCT_ID)
+);
+
 
