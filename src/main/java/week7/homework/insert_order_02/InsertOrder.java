@@ -14,7 +14,7 @@ public class InsertOrder {
     public static void main(String[] args) {
         try {
 //            insertSingle(); // Cost time(s):606
-            insertBatch(); // Cost time(s):161
+            insertBatch(); // One executeBatch Cost time(s):161. Every 1000 executeBatch once, Cost time(s):152
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,10 +106,6 @@ public class InsertOrder {
 
             PreparedStatement ps1 = connection.prepareStatement(order_sql);
             for (int idx = 0; idx < orderList.size(); idx++) {
-                if (idx > 0) {
-                    ps1.addBatch();
-                }
-
                 ps1.setString(1, orderList.get(idx).getOrder_id());
                 ps1.setString(2, orderList.get(idx).getUser_id());
                 ps1.setDouble(3, orderList.get(idx).getOrder_price());
@@ -119,6 +115,14 @@ public class InsertOrder {
                 ps1.setInt(7, orderList.get(idx).getIs_canceled());
                 ps1.setLong(8, orderList.get(idx).getCreate_time());
                 ps1.setLong(9, orderList.get(idx).getUpdate_time());
+
+                if (idx != 0 || idx != orderList.size()) {
+                    ps1.addBatch();
+                }
+
+                if (idx % 1000 == 0) {
+                    ps1.executeBatch();
+                }
             }
             ps1.executeBatch();
 
@@ -129,14 +133,19 @@ public class InsertOrder {
 
             PreparedStatement ps2 = connection.prepareStatement(orderDetail_sql);
             for (int idx = 0; idx < orderList.size(); idx++) {
-                if (idx > 0) {
-                    ps2.addBatch();
-                }
                 ps2.setString(1, orderList.get(idx).getOrderDetailList().get(0).getOrder_id());
                 ps2.setString(2, orderList.get(idx).getOrderDetailList().get(0).getProduct_id());
                 ps2.setInt(3, orderList.get(idx).getOrderDetailList().get(0).getOrder_quantity());
                 ps2.setLong(4, orderList.get(idx).getOrderDetailList().get(0).getCreate_time());
                 ps2.setLong(5, orderList.get(idx).getOrderDetailList().get(0).getUpdate_time());
+
+                if (idx != 0 || idx != orderList.size()) {
+                    ps2.addBatch();
+                }
+
+                if (idx % 1000 == 0) {
+                    ps2.executeBatch();
+                }
             }
 
             ps2.executeBatch();
