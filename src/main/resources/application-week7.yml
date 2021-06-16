@@ -1,14 +1,14 @@
 spring:
   datasource:
-    node1:
-      poolName: node1
+    write:
+      poolName: write
       driverClassName: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3316/java_course
       username: root
       password:
       maximumPoolSize: 1
-    node2:
-      poolName: node2
+    read:
+      poolName: read
       driverClassName: com.mysql.cj.jdbc.Driver
       jdbcUrl: jdbc:mysql://localhost:3326/java_course
       username: root

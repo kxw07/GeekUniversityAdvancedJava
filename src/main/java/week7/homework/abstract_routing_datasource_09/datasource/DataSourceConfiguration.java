@@ -1,4 +1,4 @@
-package week7.homework.abstract_routing_datasource_09;
+package week7.homework.abstract_routing_datasource_09.datasource;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -14,24 +14,24 @@ import java.util.Map;
 public class DataSourceConfiguration {
 
     @Bean
-    @ConfigurationProperties("spring.datasource.node1")
-    public DataSource node1DataSource() {
+    @ConfigurationProperties("spring.datasource.write")
+    public DataSource writeDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties("spring.datasource.node2")
-    public DataSource node2DataSource() {
+    @ConfigurationProperties("spring.datasource.read")
+    public DataSource readDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean
+    @Bean(name = "dynamicDataSource")
     @Primary
-    public DynamicDataSource dataSource(DataSource node1DataSource, DataSource node2DataSource) {
+    public DataSource dynamicDataSource(DataSource writeDataSource, DataSource readDataSource) {
         Map<Object, Object> targetDataSources = new HashMap<>(2);
-        targetDataSources.put(DataSourceName.NODE1, node1DataSource);
-        targetDataSources.put(DataSourceName.NODE2, node2DataSource);
+        targetDataSources.put(DataSourceName.WRITE, writeDataSource);
+        targetDataSources.put(DataSourceName.READ, readDataSource);
 
-        return new DynamicDataSource(node1DataSource, targetDataSources);
+        return new DynamicDataSource(writeDataSource, targetDataSources);
     }
 }

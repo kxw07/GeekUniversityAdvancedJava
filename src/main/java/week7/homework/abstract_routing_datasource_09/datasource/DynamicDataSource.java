@@ -1,4 +1,4 @@
-package week7.homework.abstract_routing_datasource_09;
+package week7.homework.abstract_routing_datasource_09.datasource;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
@@ -17,7 +17,8 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Override
     protected Object determineCurrentLookupKey() {
-        return null;
+        System.out.println("self determineCurrentLookupKey:" + getDataSource());
+        return getDataSource();
     }
 
     public static void setDataSource(String dataSource) {
