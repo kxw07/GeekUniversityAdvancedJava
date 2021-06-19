@@ -1,16 +1,31 @@
 spring:
-  datasource:
-    write:
-      poolName: write
-      driverClassName: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://localhost:3316/java_course
-      username: root
-      password:
-      maximumPoolSize: 1
-    read:
-      poolName: read
-      driverClassName: com.mysql.cj.jdbc.Driver
-      jdbcUrl: jdbc:mysql://localhost:3326/java_course
-      username: root
-      password:
-      maximumPoolSize: 1
+  shardingsphere:
+    # 展示修改以后的sql语句
+    props:
+      sql-show: true
+    datasource:
+      common:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.zaxxer.hikari.HikariDataSource
+      names: write,read1,read2
+      write:
+        jdbc-url: jdbc:mysql://localhost:3316/java_course
+        username: root
+        password:
+      read1:
+        jdbc-url: jdbc:mysql://localhost:3316/java_course
+        username: root
+        password:
+      read2:
+        jdbc-url: jdbc:mysql://localhost:3326/java_course
+        username: root
+        password:
+    rules:
+      readwrite-splitting:
+        dataSources:
+          group1:
+            writeDataSourceName: write
+            readDataSourceNames: [ read1,read2 ]
+          loadBalancers:
+            random:
+              type: RANDOM
