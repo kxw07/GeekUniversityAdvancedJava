@@ -1,4 +1,4 @@
-package week7.homework.sharding_sphere_10.java_version;
+package week7.homework.sharding_sphere_10_yaml_version;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package week7.homework.sharding_sphere_10.java_version;
+package week7.homework.sharding_sphere_10_yaml_version;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
