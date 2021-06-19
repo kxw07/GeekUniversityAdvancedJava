@@ -37,34 +37,36 @@ public class InsertOrder {
                 connection.setAutoCommit(false);
 
                 String order_sql = " insert into SHOP_ORDER " +
-                        " (order_id, user_id, order_price, deliver_address, is_paid, is_delivered, is_canceled, create_time, update_time)" +
+                        " (order_id, order_price, user_id, user_name, deliver_address, is_paid, is_delivered, is_canceled, create_time, update_time)" +
                         " values " +
-                        " (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+                        " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 
                 PreparedStatement ps1 = connection.prepareStatement(order_sql);
                 ps1.setString(1, orderList.get(idx).getOrder_id());
-                ps1.setString(2, orderList.get(idx).getUser_id());
-                ps1.setDouble(3, orderList.get(idx).getOrder_price());
-                ps1.setString(4, orderList.get(idx).getDeliver_address());
-                ps1.setInt(5, orderList.get(idx).getIs_paid());
-                ps1.setInt(6, orderList.get(idx).getIs_delivered());
-                ps1.setInt(7, orderList.get(idx).getIs_canceled());
-                ps1.setLong(8, orderList.get(idx).getCreate_time());
-                ps1.setLong(9, orderList.get(idx).getUpdate_time());
+                ps1.setDouble(2, orderList.get(idx).getOrder_price());
+                ps1.setString(3, orderList.get(idx).getUser_id());
+                ps1.setString(4, orderList.get(idx).getUser_name());
+                ps1.setString(5, orderList.get(idx).getDeliver_address());
+                ps1.setInt(6, orderList.get(idx).getIs_paid());
+                ps1.setInt(7, orderList.get(idx).getIs_delivered());
+                ps1.setInt(8, orderList.get(idx).getIs_canceled());
+                ps1.setLong(9, orderList.get(idx).getCreate_time());
+                ps1.setLong(10, orderList.get(idx).getUpdate_time());
 
                 ps1.execute();
 
                 String orderDetail_sql = " insert into SHOP_ORDER_DETAIL " +
-                        " (order_id, product_id, order_quantity, create_time, update_time) " +
+                        " (order_id, product_id, product_price_at_order, order_quantity, create_time, update_time) " +
                         " values " +
-                        " (?, ?, ?, ?, ?) ";
+                        " (?, ?, ?, ?, ?, ?) ";
 
                 PreparedStatement ps2 = connection.prepareStatement(orderDetail_sql);
                 ps2.setString(1, orderList.get(idx).getOrderDetailList().get(0).getOrder_id());
                 ps2.setString(2, orderList.get(idx).getOrderDetailList().get(0).getProduct_id());
-                ps2.setInt(3, orderList.get(idx).getOrderDetailList().get(0).getOrder_quantity());
-                ps2.setLong(4, orderList.get(idx).getOrderDetailList().get(0).getCreate_time());
-                ps2.setLong(5, orderList.get(idx).getOrderDetailList().get(0).getUpdate_time());
+                ps2.setDouble(3, orderList.get(idx).getOrderDetailList().get(0).getProduct_price_at_order());
+                ps2.setInt(4, orderList.get(idx).getOrderDetailList().get(0).getOrder_quantity());
+                ps2.setLong(5, orderList.get(idx).getOrderDetailList().get(0).getCreate_time());
+                ps2.setLong(6, orderList.get(idx).getOrderDetailList().get(0).getUpdate_time());
 
                 ps2.execute();
 
@@ -100,21 +102,22 @@ public class InsertOrder {
             connection.setAutoCommit(false);
 
             String order_sql = " insert into SHOP_ORDER " +
-                    " (order_id, user_id, order_price, deliver_address, is_paid, is_delivered, is_canceled, create_time, update_time)" +
+                    " (order_id, order_price, user_id, user_name, deliver_address, is_paid, is_delivered, is_canceled, create_time, update_time)" +
                     " values " +
-                    " (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+                    " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 
             PreparedStatement ps1 = connection.prepareStatement(order_sql);
             for (int idx = 0; idx < orderList.size(); idx++) {
                 ps1.setString(1, orderList.get(idx).getOrder_id());
-                ps1.setString(2, orderList.get(idx).getUser_id());
-                ps1.setDouble(3, orderList.get(idx).getOrder_price());
-                ps1.setString(4, orderList.get(idx).getDeliver_address());
-                ps1.setInt(5, orderList.get(idx).getIs_paid());
-                ps1.setInt(6, orderList.get(idx).getIs_delivered());
-                ps1.setInt(7, orderList.get(idx).getIs_canceled());
-                ps1.setLong(8, orderList.get(idx).getCreate_time());
-                ps1.setLong(9, orderList.get(idx).getUpdate_time());
+                ps1.setDouble(2, orderList.get(idx).getOrder_price());
+                ps1.setString(3, orderList.get(idx).getUser_id());
+                ps1.setString(4, orderList.get(idx).getUser_name());
+                ps1.setString(5, orderList.get(idx).getDeliver_address());
+                ps1.setInt(6, orderList.get(idx).getIs_paid());
+                ps1.setInt(7, orderList.get(idx).getIs_delivered());
+                ps1.setInt(8, orderList.get(idx).getIs_canceled());
+                ps1.setLong(9, orderList.get(idx).getCreate_time());
+                ps1.setLong(10, orderList.get(idx).getUpdate_time());
 
                 if (idx != 0 || idx != orderList.size()) {
                     ps1.addBatch();
@@ -127,17 +130,18 @@ public class InsertOrder {
             ps1.executeBatch();
 
             String orderDetail_sql = " insert into SHOP_ORDER_DETAIL " +
-                    " (order_id, product_id, order_quantity, create_time, update_time) " +
+                    " (order_id, product_id, product_price_at_order, order_quantity, create_time, update_time) " +
                     " values " +
-                    " (?, ?, ?, ?, ?) ";
+                    " (?, ?, ?, ?, ?, ?) ";
 
             PreparedStatement ps2 = connection.prepareStatement(orderDetail_sql);
             for (int idx = 0; idx < orderList.size(); idx++) {
                 ps2.setString(1, orderList.get(idx).getOrderDetailList().get(0).getOrder_id());
                 ps2.setString(2, orderList.get(idx).getOrderDetailList().get(0).getProduct_id());
-                ps2.setInt(3, orderList.get(idx).getOrderDetailList().get(0).getOrder_quantity());
-                ps2.setLong(4, orderList.get(idx).getOrderDetailList().get(0).getCreate_time());
-                ps2.setLong(5, orderList.get(idx).getOrderDetailList().get(0).getUpdate_time());
+                ps2.setDouble(3, orderList.get(idx).getOrderDetailList().get(0).getProduct_price_at_order());
+                ps2.setInt(4, orderList.get(idx).getOrderDetailList().get(0).getOrder_quantity());
+                ps2.setLong(5, orderList.get(idx).getOrderDetailList().get(0).getCreate_time());
+                ps2.setLong(6, orderList.get(idx).getOrderDetailList().get(0).getUpdate_time());
 
                 if (idx != 0 || idx != orderList.size()) {
                     ps2.addBatch();
@@ -179,6 +183,7 @@ public class InsertOrder {
         OrderDetail orderDetail = OrderDetail.builder()
                 .order_id(String.valueOf(index))
                 .product_id("life_tool_0001")
+                .product_price_at_order(10d)
                 .order_quantity(1)
                 .create_time(now)
                 .update_time(now)
@@ -186,8 +191,9 @@ public class InsertOrder {
 
         return Order.builder()
                 .order_id(String.valueOf(index))
-                .user_id("1623650920341")
                 .order_price(5d)
+                .user_id("1623650920341")
+                .user_name("test_user_01")
                 .deliver_address("One Road")
                 .is_paid(0)
                 .is_delivered(0)

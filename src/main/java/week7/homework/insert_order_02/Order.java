@@ -9,9 +9,12 @@ import java.util.List;
 @Builder
 public class Order {
     private String order_id;
-    private String user_id;
     private String remark;
     private double order_price;
+    private String user_id;
+    private String user_name;
+    private String email;
+    private String phone;
     private String deliver_address;
     private int is_paid;
     private int is_delivered;
