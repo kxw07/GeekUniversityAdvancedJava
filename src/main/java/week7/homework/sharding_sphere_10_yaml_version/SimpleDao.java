@@ -1,5 +1,6 @@
 package week7.homework.sharding_sphere_10_yaml_version;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,7 @@ import java.util.List;
 public class SimpleDao {
 
     @Resource
+    @Qualifier("shardingSphereDataSource")
     private DataSource dataSource;
 
     public List<User> query() throws SQLException, IOException {
