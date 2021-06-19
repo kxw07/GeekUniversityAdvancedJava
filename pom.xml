@@ -122,6 +122,14 @@
             <version>30.1.1-jre</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.shardingsphere/shardingsphere-jdbc-core -->
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-jdbc-core</artifactId>
+            <version>5.0.0-alpha</version>
+        </dependency>
+
+
 
     </dependencies>
 </project>

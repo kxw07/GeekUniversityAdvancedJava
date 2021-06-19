@@ -1,11 +1,9 @@
-package week7.homework.abstract_routing_datasource_09;
+package week7.homework.sharding_sphere_10.java_version;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-// spring active profiles: week7-09
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(Main.class);

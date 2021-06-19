@@ -47,7 +47,7 @@ create table java_course.SHOP_USER
     EMAIL varchar(64) null,
     PHONE varchar(16) null,
     DELIVER_ADDRESS varchar(128) not null,
-    LAST_LOGIN int null,
+    LAST_LOGIN bigint null,
     CREATE_TIME bigint not null,
     UPDATE_TIME bigint not null
 );
