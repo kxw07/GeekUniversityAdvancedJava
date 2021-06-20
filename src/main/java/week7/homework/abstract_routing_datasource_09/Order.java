@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import week7.homework.insert_order_02.OrderDetail;
+import week7.homework.insert_order_02.pojo.OrderDetail;
 
 import java.util.List;
 
