@@ -1,32 +1,45 @@
-package week7.homework.insert_order_02;
+package week7.homework.insert_order_02.countdownlatch;
 
-import week7.homework.insert_order_02.pojo.Order;
+import com.google.common.collect.Lists;
 import week7.homework.insert_order_02.util.DataSourceUtil;
 import week7.homework.insert_order_02.util.OrderUtil;
+import week7.homework.insert_order_02.pojo.Order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class InsertOrderBatch {
-    public static void main(String[] args) {
-        try {
-            List<Order> orderList = OrderUtil.prepareOrder(1000000);
+public class InsertOrder {
+    public static void main(String[] args) throws InterruptedException {
+        List<Order> orderList = OrderUtil.prepareOrder(1_000_000);
+        List<List<Order>> partitionList = Lists.partition(orderList, 20_000);
 
-            long start = Instant.now().getEpochSecond();
+        long start = Instant.now().getEpochSecond();
 
-            insert(orderList); // One executeBatch Cost time(s):161. Every 1000 executeBatch once, Cost time(s):152
-
-            long end = Instant.now().getEpochSecond();
-            System.out.println("Cost time(s):" + (end - start));
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ExecutorService executorService = Executors.newFixedThreadPool(30);
+        CountDownLatch countDownLatch = new CountDownLatch(partitionList.size());
+        for (int i = 0; i < partitionList.size(); i++) {
+            executorService.submit(new InsertOrderTask(countDownLatch, partitionList.get(i)));
         }
+        countDownLatch.await();
+
+        // 10 partition list, thread pool 20, connection pool 20, cost time(s):57
+        // 100 partition list, thread pool 20, connection pool 20, cost time(s):61
+        // 20 partition list, thread pool 20, connection pool 20, cost time(s):55
+        // 50 partition list, thread pool 30, connection pool 30, cost time(s):58
+
+        long end = Instant.now().getEpochSecond();
+        System.out.println("Cost time(s):" + (end - start));
+
+        executorService.shutdown();
     }
 
-    private static void insert(List<Order> orderList) throws SQLException {
+    public static void insert(List<Order> orderList) throws SQLException {
         Connection connection = DataSourceUtil.getConnection();
 
         try {

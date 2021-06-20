@@ -1,4 +1,4 @@
-package week7.homework.insert_order_02;
+package week7.homework.insert_order_02.util;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -12,7 +12,7 @@ public class DataSourceUtil {
         hikariDataSource = new HikariDataSource();
         hikariDataSource.setJdbcUrl("jdbc:mysql://localhost:3316/java_course");
         hikariDataSource.setUsername("root");
-        hikariDataSource.setMaximumPoolSize(3);
+        hikariDataSource.setMaximumPoolSize(30);
     }
 
     public static Connection getConnection() throws SQLException {

@@ -1,5 +1,6 @@
 package week7.homework.insert_order_02;
 
+import com.google.common.collect.Lists;
 import week7.homework.insert_order_02.pojo.Order;
 import week7.homework.insert_order_02.util.DataSourceUtil;
 import week7.homework.insert_order_02.util.OrderUtil;
@@ -10,20 +11,24 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.List;
 
-public class InsertOrderBatch {
+public class InsertOrderMultiThread {
     public static void main(String[] args) {
-        try {
-            List<Order> orderList = OrderUtil.prepareOrder(1000000);
+        List<Order> orderList = OrderUtil.prepareOrder(1_000_000);
+        List<List<Order>> partitionList = Lists.partition(orderList, 10_000);
 
-            long start = Instant.now().getEpochSecond();
+        long start = Instant.now().getEpochSecond();
 
-            insert(orderList); // One executeBatch Cost time(s):161. Every 1000 executeBatch once, Cost time(s):152
+        partitionList.stream().parallel().forEach(partOfList -> { // 10 partition list, Cost time(s):66, 100 partition list, Cost time(s):69
+//        partitionList.forEach(partOfList -> { // 10 partition, Cost time(s):169
+            try {
+                insert(partOfList);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
 
-            long end = Instant.now().getEpochSecond();
-            System.out.println("Cost time(s):" + (end - start));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        long end = Instant.now().getEpochSecond();
+        System.out.println("Cost time(s):" + (end - start));
     }
 
     private static void insert(List<Order> orderList) throws SQLException {

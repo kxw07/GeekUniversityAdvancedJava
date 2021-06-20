@@ -1,7 +1,8 @@
 package week7.homework.insert_order_02;
 
-import com.zaxxer.hikari.HikariDataSource;
 import week7.homework.insert_order_02.pojo.Order;
+import week7.homework.insert_order_02.util.DataSourceUtil;
+import week7.homework.insert_order_02.util.OrderUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,21 +13,24 @@ import java.util.List;
 public class InsertOrderMultiCommit {
     public static void main(String[] args) {
         try {
-            insert(); // Cost time(s):606
+            List<Order> orderList = OrderUtil.prepareOrder(1000000);
+
+            long start = Instant.now().getEpochSecond();
+
+            insert(orderList); // Cost time(s):606
+
+            long end = Instant.now().getEpochSecond();
+            System.out.println("Cost time(s):" + (end - start));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private static void insert() throws SQLException {
-        List<Order> orderList = OrderUtil.prepareOrder(1000000);
-
-        long start = Instant.now().getEpochSecond();
+    private static void insert(List<Order> orderList) throws SQLException {
         for (int idx = 0; idx < orderList.size(); idx++) {
-            Connection connection = null;
+            Connection connection = DataSourceUtil.getConnection();
 
             try {
-                connection = DataSourceUtil.getConnection();
                 connection.setAutoCommit(false);
 
                 String order_sql = " insert into SHOP_ORDER " +
@@ -74,7 +78,5 @@ public class InsertOrderMultiCommit {
                 }
             }
         }
-        long end = Instant.now().getEpochSecond();
-        System.out.println("Cost time(s):" + (end - start));
     }
 }

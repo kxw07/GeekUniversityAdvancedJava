@@ -1,4 +1,4 @@
-package week7.homework.insert_order_02;
+package week7.homework.insert_order_02.util;
 
 import week7.homework.insert_order_02.pojo.Order;
 import week7.homework.insert_order_02.pojo.OrderDetail;
