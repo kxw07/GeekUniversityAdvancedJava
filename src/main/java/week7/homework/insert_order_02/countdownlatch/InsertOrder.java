@@ -32,6 +32,8 @@ public class InsertOrder {
         // 100 partition list, thread pool 20, connection pool 20, cost time(s):61
         // 20 partition list, thread pool 20, connection pool 20, cost time(s):55
         // 50 partition list, thread pool 30, connection pool 30, cost time(s):58
+        // 50 partition list, thread pool 30, connection pool 30, rewriteBatchedStatements=true, cost time(s):17
+
 
         long end = Instant.now().getEpochSecond();
         System.out.println("Cost time(s):" + (end - start));

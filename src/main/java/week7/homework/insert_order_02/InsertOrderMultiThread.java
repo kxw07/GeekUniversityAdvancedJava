@@ -18,8 +18,12 @@ public class InsertOrderMultiThread {
 
         long start = Instant.now().getEpochSecond();
 
-        partitionList.stream().parallel().forEach(partOfList -> { // 10 partition list, Cost time(s):66, 100 partition list, Cost time(s):69
-//        partitionList.forEach(partOfList -> { // 10 partition, Cost time(s):169
+        partitionList.stream().parallel().forEach(partOfList -> {
+            // 10 partition list, Cost time(s):66, 100 partition list, Cost time(s):69
+            // 10 partition list, Cost time(s):66, 100 partition list, rewriteBatchedStatements=true, Cost time(s):13
+
+//        partitionList.forEach(partOfList -> {
+            // 10 partition, Cost time(s):169
             try {
                 insert(partOfList);
             } catch (SQLException e) {

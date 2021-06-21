@@ -10,7 +10,7 @@ public class DataSourceUtil {
 
     static {
         hikariDataSource = new HikariDataSource();
-        hikariDataSource.setJdbcUrl("jdbc:mysql://localhost:3316/java_course");
+        hikariDataSource.setJdbcUrl("jdbc:mysql://localhost:3316/java_course?rewriteBatchedStatements=true");
         hikariDataSource.setUsername("root");
         hikariDataSource.setMaximumPoolSize(30);
     }

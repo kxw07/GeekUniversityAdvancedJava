@@ -17,7 +17,9 @@ public class InsertOrderBatch {
 
             long start = Instant.now().getEpochSecond();
 
-            insert(orderList); // One executeBatch Cost time(s):161. Every 1000 executeBatch once, Cost time(s):152
+            insert(orderList);
+            // One executeBatch Cost time(s):161. Every 1000 executeBatch once, Cost time(s):152
+            // One executeBatch Cost time(s):161. Every 1000 executeBatch once, rewriteBatchedStatements=true, Cost time(s):27
 
             long end = Instant.now().getEpochSecond();
             System.out.println("Cost time(s):" + (end - start));
