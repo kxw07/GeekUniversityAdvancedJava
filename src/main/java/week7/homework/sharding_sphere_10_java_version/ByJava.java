@@ -10,3 +10,5 @@ public class ByJava {
         springApplication.run();
     }
 }
+
+// should exclude shardingsphere start dependency from pom.xml
