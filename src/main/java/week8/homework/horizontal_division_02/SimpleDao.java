@@ -34,9 +34,9 @@ public class SimpleDao {
     public List<Order> queryByOrderId(long orderId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
 
-        String sql = "SELECT * FROM SHOP_ORDER WHERE USER_ID = ? AND ORDER_ID = ? ";
+        String sql = "SELECT * FROM SHOP_ORDER WHERE user_id = ? AND order_id = ? ";
 
-        return jdbcTemplate.query(sql, new Object[]{orderId, orderId}, new BeanPropertyRowMapper<>(Order.class));
+        return jdbcTemplate.query(sql, new Long[]{orderId, orderId}, new BeanPropertyRowMapper<>(Order.class));
     }
 
     public void delete() {
