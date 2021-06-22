@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 // spring active profiles: week7-10
 @SpringBootApplication
-public class ByYaml {
+public class ReadWriteByYaml {
     public static void main(String[] args) {
-        SpringApplication springApplication = new SpringApplication(ByYaml.class);
+        SpringApplication springApplication = new SpringApplication(ReadWriteByYaml.class);
         springApplication.run();
     }
 }

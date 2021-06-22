@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ByJava {
+public class ReadWriteByJava {
     public static void main(String[] args) {
-        SpringApplication springApplication = new SpringApplication(ByJava.class);
+        SpringApplication springApplication = new SpringApplication(ReadWriteByJava.class);
         springApplication.run();
     }
 }

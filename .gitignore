@@ -3,3 +3,4 @@ target/*
 mysql_docker/data/*
 mysql/mysql1/data/*
 mysql/mysql2/data/*
+mysql/mysql3/data/*
