@@ -26,17 +26,17 @@ public class SimpleDao {
     public void insert() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
 
-        String sql = "INSERT INTO SHOP_ORDER (order_id, user_id) VALUES (?, ?)";
+        String sql = "INSERT INTO SHOP_ORDER (user_id) VALUES (?)";
 
-        jdbcTemplate.update(sql, Instant.now().getEpochSecond(),  Instant.now().getEpochSecond());
+        jdbcTemplate.update(sql, Instant.now().getEpochSecond());
     }
 
     public List<Order> queryByOrderId(long orderId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
 
-        String sql = "SELECT * FROM SHOP_ORDER WHERE user_id = ? AND order_id = ? ";
+        String sql = "SELECT * FROM SHOP_ORDER WHERE order_id = ? ";
 
-        return jdbcTemplate.query(sql, new Long[]{orderId, orderId}, new BeanPropertyRowMapper<>(Order.class));
+        return jdbcTemplate.query(sql, new Long[]{orderId}, new BeanPropertyRowMapper<>(Order.class));
     }
 
     public void delete() {
@@ -45,5 +45,13 @@ public class SimpleDao {
         String sql = "DELETE FROM SHOP_ORDER";
 
         jdbcTemplate.execute(sql);
+    }
+
+    public List<Order> queryByUserId(long userId) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
+
+        String sql = "SELECT * FROM SHOP_ORDER WHERE user_id = ? ";
+
+        return jdbcTemplate.query(sql, new Long[]{userId}, new BeanPropertyRowMapper<>(Order.class));
     }
 }

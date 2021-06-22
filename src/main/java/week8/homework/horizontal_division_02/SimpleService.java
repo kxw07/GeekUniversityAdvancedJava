@@ -31,4 +31,8 @@ public class SimpleService {
     public void delete() {
         this.simpleDao.delete();
     }
+
+    public List<Order> queryByUserId(long userId) {
+        return this.simpleDao.queryByUserId(userId);
+    }
 }

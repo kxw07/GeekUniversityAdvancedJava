@@ -20,9 +20,14 @@ public class SimpleController {
         return this.simpleService.query();
     }
 
-    @RequestMapping("/query/{orderId}")
+    @RequestMapping("/query/order/{orderId}")
     public List<Order> queryByOrderId(@PathVariable long orderId) {
         return this.simpleService.queryByOrderId(orderId);
+    }
+
+    @RequestMapping("/query/user/{userId}")
+    public List<Order> queryByUserId(@PathVariable long userId) {
+        return this.simpleService.queryByUserId(userId);
     }
 
     @RequestMapping("/insert")
