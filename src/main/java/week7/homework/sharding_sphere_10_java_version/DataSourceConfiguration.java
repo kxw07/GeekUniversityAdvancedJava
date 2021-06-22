@@ -3,8 +3,8 @@ package week7.homework.sharding_sphere_10_java_version;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.shardingsphere.driver.api.ShardingSphereDataSourceFactory;
 import org.apache.shardingsphere.infra.config.algorithm.ShardingSphereAlgorithmConfiguration;
-import org.apache.shardingsphere.replicaquery.api.config.ReplicaQueryRuleConfiguration;
-import org.apache.shardingsphere.replicaquery.api.config.rule.ReplicaQueryDataSourceRuleConfiguration;
+import org.apache.shardingsphere.readwritesplitting.api.ReadwriteSplittingRuleConfiguration;
+import org.apache.shardingsphere.readwritesplitting.api.rule.ReadwriteSplittingDataSourceRuleConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -38,17 +38,16 @@ public class DataSourceConfiguration {
         dataSourceMap.put("slave2", slave2);
 
 
-        List<ReplicaQueryDataSourceRuleConfiguration> configurations = new ArrayList<>();
-        configurations.add(new ReplicaQueryDataSourceRuleConfiguration("ds", "master", Arrays.asList("slave1", "slave2"), "load_balancer"));
+        ReadwriteSplittingDataSourceRuleConfiguration dataSourceConfig = new ReadwriteSplittingDataSourceRuleConfiguration(
+                "ds", "", "master", Arrays.asList("slave1", "slave2"), "load_balancer");
 
         Map<String, ShardingSphereAlgorithmConfiguration> loadBalancers = new HashMap<>();
         loadBalancers.put("load_balancer", new ShardingSphereAlgorithmConfiguration("ROUND_ROBIN", new Properties()));
 
-        ReplicaQueryRuleConfiguration ruleConfiguration = new ReplicaQueryRuleConfiguration(configurations, loadBalancers);
-
         Properties properties = new Properties();
         properties.setProperty("sql-show", "true");
 
-        return ShardingSphereDataSourceFactory.createDataSource(dataSourceMap, Arrays.asList(ruleConfiguration), properties);
+        ReadwriteSplittingRuleConfiguration ruleConfig = new ReadwriteSplittingRuleConfiguration(Collections.singleton(dataSourceConfig), loadBalancers);
+        return ShardingSphereDataSourceFactory.createDataSource(dataSourceMap, Collections.singleton(ruleConfig), properties);
     }
 }

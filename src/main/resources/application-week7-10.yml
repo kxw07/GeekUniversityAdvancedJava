@@ -3,32 +3,35 @@ spring:
     props:
       sql-show: true
     datasource:
-      common:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        type: com.zaxxer.hikari.HikariDataSource
       names: write,read1,read2
       write:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.zaxxer.hikari.HikariDataSource
         jdbc-url: jdbc:mysql://localhost:3316/java_course
         username: root
-        password:
+        password: ''
       read1:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.zaxxer.hikari.HikariDataSource
         jdbc-url: jdbc:mysql://localhost:3316/java_course
         username: root
-        password:
+        password: ''
       read2:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.zaxxer.hikari.HikariDataSource
         jdbc-url: jdbc:mysql://localhost:3326/java_course
         username: root
-        password:
+        password: ''
     rules:
       readwrite-splitting:
         dataSources:
           group1:
             writeDataSourceName: write
-            readDataSourceNames: [ read1,read2 ]
+            readDataSourceNames: read1, read2
             load-balancer-name: round_robin
-          load-balancers:
-            round_robin:
-              type: ROUND_ROBIN
+        load-balancers:
+          round_robin:
+            type: ROUND_ROBIN
 
 management:
   endpoints:
