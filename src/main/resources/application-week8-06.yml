@@ -1,0 +1,51 @@
+dataSources:
+  ds_0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:3316/java_course
+    username: root
+    password:
+  ds_1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:3336/java_course
+    username: root
+    password:
+
+rules:
+- !SHARDING
+  tables:
+    test_order:
+      actualDataNodes: ds_${0..1}.test_order_${0..15}
+      tableStrategy:
+        standard:
+          shardingColumn: order_id
+          shardingAlgorithmName: table_inline
+      keyGenerateStrategy:
+        column: order_id
+        keyGeneratorName: snowflake
+  defaultDatabaseStrategy:
+    standard:
+      shardingColumn: user_id
+      shardingAlgorithmName: database_inline
+  defaultTableStrategy:
+    none:
+
+  shardingAlgorithms:
+    database_inline:
+      type: INLINE
+      props:
+        algorithm-expression: ds_${user_id % 2}
+    table_inline:
+      type: INLINE
+      props:
+        algorithm-expression: test_order_${order_id % 16}
+
+  keyGenerators:
+    snowflake:
+      type: SNOWFLAKE
+      props:
+          worker-id: 123
+
+props:
+  sql-show: true
