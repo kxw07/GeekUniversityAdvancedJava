@@ -1,5 +1,7 @@
 package week8.homework.xa_06;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shardingsphere.driver.api.yaml.YamlShardingSphereDataSourceFactory;
 import org.apache.shardingsphere.transaction.core.TransactionType;
 import org.apache.shardingsphere.transaction.core.TransactionTypeHolder;
@@ -14,10 +16,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class XAMain {
+    private static final Logger logger = LogManager.getLogger(XAMain.class);
 
     private static DataSource dataSource;
 
     public static void main(String[] args) throws SQLException, IOException {
+        logger.info("test logger");
+        System.out.println(LogManager.getContext().getLogger("Root").getLevel());
         dataSource = getDataSource();
 
         try {
