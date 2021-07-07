@@ -30,22 +30,25 @@ public class CaffeineMain {
                 .maximumSize(100)
                 .build(key -> loadingCache());
 
-        Assert.assertEquals("value1", cache.get("key2"));
+        logger.info("cache.get(\"key2\"):" + cache.get("key2"));
+//        Assert.assertEquals("value1", cache.get("key2"));
 
-        System.out.println("Sleep 3s");
+        logger.info("Sleep 3s");
         Thread.sleep(3000);
-        Assert.assertEquals("value1", cache.get("key2"));
-        Assert.assertEquals("value1", cache.get("key2"));
+        logger.info("cache.get(\"key2\"):" + cache.get("key2"));
+//        Assert.assertEquals("value1", cache.get("key2"));
+//        Assert.assertEquals("value1", cache.get("key2"));
 
-        System.out.println("Sleep 5s");
+        logger.info("Sleep 5s");
         Thread.sleep(5000);
-        Assert.assertEquals("value2", cache.get("key2"));
+        logger.info("cache.get(\"key2\"):" + cache.get("key2"));
+//        Assert.assertEquals("value2", cache.get("key2"));
 
         Thread.sleep(3000);
     }
 
     private static String loadingCache() throws InterruptedException {
-        System.out.println("loadingCache...");
+        logger.info("loadingCache...");
         Thread.sleep(1000);
         return "value" + ++counter;
     }
