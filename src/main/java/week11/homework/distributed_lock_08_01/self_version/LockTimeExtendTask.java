@@ -9,7 +9,7 @@ import java.util.Set;
 public class LockTimeExtendTask implements Runnable {
     private static final Logger logger = LogManager.getLogger(LockTimeExtendTask.class);
 
-    private Set<String> lockKeys;
+    private final Set<String> lockKeys;
 
     public LockTimeExtendTask(Set<String> lockKeys) {
         this.lockKeys = lockKeys;
