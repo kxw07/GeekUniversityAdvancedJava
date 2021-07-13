@@ -19,6 +19,7 @@ public class MyLock {
 
         if (redisConnection.setNX(this.lockName.getBytes(), String.valueOf(Instant.now().getEpochSecond()).getBytes())) {
             this.isLocked = true;
+            LockTimeExtendScheduler.addLockKey(this.lockName);
             return true;
         } else {
             throw new LockException("Try lock Failed.");
@@ -32,6 +33,7 @@ public class MyLock {
 
         if (redisConnection.del(this.lockName.getBytes()) != 0) {
             this.isLocked = false;
+            LockTimeExtendScheduler.removeLockKey(this.lockName);
             return true;
         } else {
             throw new LockException("Try unlock Failed.");
