@@ -1,21 +1,41 @@
 package week11.homework.distributed_lock_08_01.self_version;
 
+import org.springframework.data.redis.connection.RedisConnection;
+
+import java.time.Instant;
+
 public class MyLock {
-    private String lockName;
+    private final String lockName;
+    private boolean isLocked;
 
     public MyLock(String lockName) {
         this.lockName = lockName;
     }
 
-    public boolean lock() {
-       return false;
+    public boolean lock(RedisConnection redisConnection) throws LockException {
+        if(this.isLocked) {
+            throw new LockException("Lock is locked.");
+        }
+
+        if (redisConnection.setNX(this.lockName.getBytes(), String.valueOf(Instant.now().getEpochSecond()).getBytes())) {
+            this.isLocked = true;
+            return true;
+        } else {
+            throw new LockException("Try lock Failed.");
+        }
     }
 
-    public void addExpireTime() {
+    public boolean unlock(RedisConnection redisConnection) throws LockException {
+        if (!this.isLocked) {
+            throw new LockException("Lock is unlocked.");
+        }
 
-    }
-
-    public void unlock() {
+        if (redisConnection.del(this.lockName.getBytes()) != 0) {
+            this.isLocked = false;
+            return true;
+        } else {
+            throw new LockException("Try unlock Failed.");
+        }
 
     }
 }

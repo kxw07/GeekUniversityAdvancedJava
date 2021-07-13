@@ -6,22 +6,31 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 
-public class JavaMain {
-    private static final Logger logger = LogManager.getLogger(JavaMain.class);
+public class Main01 {
+    private static final Logger logger = LogManager.getLogger(Main01.class);
 
     public static void main(String[] args) throws Exception {
-        String machineName = "localMachine001";
         LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(new RedisStandaloneConfiguration("127.0.0.1", 6379));
         lettuceConnectionFactory.afterPropertiesSet();
+
+        final MyLock lock01 = new MyLock("lock01");
+
         try (RedisConnection redisConnection = lettuceConnectionFactory.getConnection()) {
-            if (redisConnection.setNX("myLock".getBytes(), machineName.getBytes())) {
-                redisConnection.setEx("myLock".getBytes(), 30_000, machineName.getBytes());
-            } else {
-                throw new Exception("Get Lock Failed...");
-            }
+            lock01.lock(redisConnection);
+
+            logger.info("Lock successfully...");
         } catch (Exception e) {
             logger.error(e);
         }
 
+        Thread.sleep(30000);
+
+        try (RedisConnection redisConnection = lettuceConnectionFactory.getConnection()) {
+            lock01.unlock(redisConnection);
+
+            logger.info("UnLock successfully...");
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 }
