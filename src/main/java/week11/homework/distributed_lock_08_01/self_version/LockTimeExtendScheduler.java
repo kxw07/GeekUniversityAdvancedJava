@@ -25,4 +25,8 @@ public class LockTimeExtendScheduler {
     public static void removeLockKey(String lock) {
         lockKeys.remove(lock);
     }
+
+    public static void shutdown() {
+        scheduledExecutorService.shutdown();
+    }
 }

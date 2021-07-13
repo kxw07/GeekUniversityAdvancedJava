@@ -18,16 +18,18 @@ public class Main01 {
             logger.error(e);
         }
 
-//        Thread.sleep(30_000);
+        Thread.sleep(30_000);
 
-//        try (RedisConnection redisConnection = RedisUtil.getConnection()) {
-//            lock01.unlock(redisConnection);
-//
-//            logger.info("UnLock successfully...");
-//        } catch (Exception e) {
-//            logger.error(e);
-//        }
+        try (RedisConnection redisConnection = RedisUtil.getConnection()) {
+            lock01.unlock(redisConnection);
 
-        while (true) {}
+            logger.info("UnLock successfully...");
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+//        while (true) {}
+
+        LockTimeExtendScheduler.shutdown();
     }
 }
