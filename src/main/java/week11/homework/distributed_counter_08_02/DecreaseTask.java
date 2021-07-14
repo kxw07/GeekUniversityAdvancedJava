@@ -2,6 +2,7 @@ package week11.homework.distributed_counter_08_02;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import week11.homework.RedisUtil;
 
 public class DecreaseTask implements Runnable {
     private static final Logger logger = LogManager.getLogger(DecreaseTask.class);

@@ -3,6 +3,7 @@ package week11.homework.distributed_lock_08_01.self_version;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.redis.connection.RedisConnection;
+import week11.homework.RedisUtil;
 
 public class Main01 {
     private static final Logger logger = LogManager.getLogger(Main01.class);

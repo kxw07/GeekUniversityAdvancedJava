@@ -1,4 +1,4 @@
-package week11.homework.distributed_lock_08_01.self_version;
+package week11.homework;
 
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;

@@ -2,6 +2,7 @@ package week11.homework.distributed_lock_08_01.self_version;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import week11.homework.RedisUtil;
 
 import java.time.Instant;
 import java.util.Set;

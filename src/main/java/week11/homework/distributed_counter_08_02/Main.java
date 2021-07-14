@@ -1,5 +1,7 @@
 package week11.homework.distributed_counter_08_02;
 
+import week11.homework.RedisUtil;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
