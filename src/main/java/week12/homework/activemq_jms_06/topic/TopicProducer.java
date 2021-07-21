@@ -1,4 +1,4 @@
-package week12.homework.activemq_jms_06.queue;
+package week12.homework.activemq_jms_06.topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
@@ -7,10 +7,11 @@ import org.apache.logging.log4j.Logger;
 import javax.jms.*;
 import java.time.Instant;
 
-public class Producer {
-    private static final Logger logger = LogManager.getLogger(Producer.class);
+public class TopicProducer implements Runnable {
+    private static final Logger logger = LogManager.getLogger(TopicProducer.class);
 
-    public static void main(String[] args) {
+    @Override
+    public void run() {
         try {
             ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
 
@@ -19,12 +20,12 @@ public class Producer {
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            Destination destination = session.createQueue("TEST.QUEUE");
+            Destination destination = session.createTopic("TEST.TOPIC");
 
             MessageProducer producer = session.createProducer(destination);
             producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
-            String text = "Hello world! From Producer At " + Instant.now().getEpochSecond();
+            String text = "Hello world! From Producer " + Thread.currentThread().getName() + " At " + Instant.now().getEpochSecond();
             TextMessage textMessage = session.createTextMessage(text);
 
             producer.send(textMessage);

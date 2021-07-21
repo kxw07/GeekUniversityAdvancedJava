@@ -1,16 +1,17 @@
 package week12.homework.activemq_jms_06.queue;
 
-
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.jms.*;
+import java.time.Instant;
 
-public class Consumer {
-    private static final Logger logger = LogManager.getLogger(Consumer.class);
+public class QueueProducer implements Runnable {
+    private static final Logger logger = LogManager.getLogger(QueueProducer.class);
 
-    public static void main(String[] args) {
+    @Override
+    public void run() {
         try {
             ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
 
@@ -21,23 +22,18 @@ public class Consumer {
 
             Destination destination = session.createQueue("TEST.QUEUE");
 
-            MessageConsumer consumer = session.createConsumer(destination);
+            MessageProducer producer = session.createProducer(destination);
+            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
-            Message message = consumer.receive(1000);
+            String text = "Hello world! From Producer " + Thread.currentThread().getName() + " At " + Instant.now().getEpochSecond();
+            TextMessage textMessage = session.createTextMessage(text);
 
-            if (message instanceof TextMessage) {
-                TextMessage textMessage = (TextMessage) message;
-                String text = textMessage.getText();
-                logger.info("consume message: " + text);
-            } else {
-                logger.info("consume message: " + message);
-            }
+            producer.send(textMessage);
 
-            consumer.close();
             session.close();
             connection.close();
         } catch (Exception e) {
-            logger.error("consume message fail", e);
+            logger.error("produce message fail", e);
         }
     }
 }
