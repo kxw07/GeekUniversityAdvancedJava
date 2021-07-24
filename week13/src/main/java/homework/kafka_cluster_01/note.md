@@ -64,3 +64,6 @@ controller.quorum.voters=1@localhost:19092,2@localhost:19093,3@localhost:19094
 ./bin/kafka-topics.sh --bootstrap-server localhost:9093 --list
 ./bin/kafka-topics.sh --bootstrap-server localhost:9093 --describe --topic kraft-test
 ```
+
+6. Code info:
+   https://www.baeldung.com/spring-kafka
