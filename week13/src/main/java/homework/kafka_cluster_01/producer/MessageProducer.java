@@ -1,5 +1,6 @@
 package homework.kafka_cluster_01.producer;
 
+import homework.kafka_cluster_01.pojo.Greeting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -13,12 +14,15 @@ public class MessageProducer {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
+    @Autowired
+    private KafkaTemplate<String, Greeting> greetingKafkaTemplate;
+
     public void send(String msg) {
-        kafkaTemplate.send("kai-test", msg);
+        kafkaTemplate.send("test-normal-msg", msg);
     }
 
     public void asyncSend(String msg) {
-        ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send("kai-test", msg);
+        ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send("test-normal-msg", msg);
 
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
@@ -31,5 +35,9 @@ public class MessageProducer {
                 System.out.println("Sent message=[" + msg + "] with offset=[" + result.getRecordMetadata().offset() + "]");
             }
         });
+    }
+
+    public void send(Greeting greeting) {
+        greetingKafkaTemplate.send("test-object-msg", greeting);
     }
 }

@@ -25,6 +25,11 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic topic1() {
-        return new NewTopic("kai-test", 3, (short) 2);
+        return new NewTopic("test-normal-msg", 3, (short) 2);
+    }
+
+    @Bean
+    public NewTopic topic2() {
+        return new NewTopic("test-object-msg", 3, (short) 2);
     }
 }
