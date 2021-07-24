@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <springProperty scope="context" name="spring.profile" source="spring.profiles.active"/>
+    <property name="LOG_HOME" value="./logback"/>
+    <property name="CHARSET" value="UTF-8"/>
+    <property name="PATTERN"
+              value="[%date{MM/dd HH:mm:ss.SSS}] [${spring.profile}] [%level] [%logger] [%thread] %message%n"/>
+
+    <!-- 控制台輸出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成日誌文件 -->
+    <appender name="NORMAL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/normal-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+
+            <MaxHistory>10</MaxHistory>
+            <MaxFileSize>10MB</MaxFileSize>
+            <totalSizeCap>200MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/error-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+
+            <MaxHistory>10</MaxHistory>
+            <MaxFileSize>10MB</MaxFileSize>
+            <totalSizeCap>200MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 系統用每日生成日誌文件 -->
+    <appender name="SYSTEM" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/system-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+
+            <MaxHistory>10</MaxHistory>
+            <MaxFileSize>10MB</MaxFileSize>
+            <totalSizeCap>200MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="HIKARI" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/hikari-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+
+            <MaxHistory>5</MaxHistory>
+            <MaxFileSize>10MB</MaxFileSize>
+            <totalSizeCap>50MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <logger name="com.zaxxer.hikari" level="ALL" additivity="true">
+        <appender-ref ref="HIKARI"/>
+    </logger>
+
+    <logger name="system" level="ALL" additivity="true">
+        <appender-ref ref="SYSTEM"/>
+    </logger>
+
+    <logger name="InfoLogger"  level="INFO" additivity="true">
+        <appender-ref ref="NORMAL"/>
+    </logger>
+
+    <logger name="ErrorLogger" level="ERROR" additivity="true">
+        <appender-ref ref="ERROR"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
