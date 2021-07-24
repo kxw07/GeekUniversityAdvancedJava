@@ -1,4 +1,4 @@
-package week13.homework.kafka_cluster_01;
+package kafka_cluster_01;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

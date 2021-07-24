@@ -1,4 +1,4 @@
-package week13.homework.kafka_cluster_01;
+package kafka_cluster_01;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
