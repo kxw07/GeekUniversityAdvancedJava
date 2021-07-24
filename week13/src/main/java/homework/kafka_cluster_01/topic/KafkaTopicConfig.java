@@ -1,4 +1,4 @@
-package homework.kafka_cluster_01;
+package homework.kafka_cluster_01.topic;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
