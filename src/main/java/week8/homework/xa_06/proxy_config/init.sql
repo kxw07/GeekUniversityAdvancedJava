@@ -1,1 +1,0 @@
-CREATE TABLE `shop_order` (`order_id` bigint NOT NULL, `user_id` bigint DEFAULT NULL, PRIMARY KEY(order_id));
