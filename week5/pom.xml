@@ -31,6 +31,12 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>kxw07.github.starter</groupId>
+            <artifactId>kxw07-spring-boot-starter</artifactId>
+            <version>1.14-SNAPSHOT</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
