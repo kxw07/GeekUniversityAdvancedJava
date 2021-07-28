@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 public class PracController {
 
 //    not works
-//    @RequestMapping("/a")
-//    public String a() {
-//        String result = "controller a...";
-//        System.out.println(result);
-//        return result;
-//    }
+    @RequestMapping("/a")
+    public String a() {
+        String result = "controller a...";
+        System.out.println(result);
+        return result;
+    }
 
     @RequestMapping("/b")
     public @ResponseBody String b() {
