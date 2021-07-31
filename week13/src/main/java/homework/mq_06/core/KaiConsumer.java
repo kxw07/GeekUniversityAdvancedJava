@@ -13,7 +13,7 @@ public class KaiConsumer {
         this.kaiQueue = this.kaiBroker.findTopic(topicName);
     }
 
-    public String poll() {
+    public String poll() throws InterruptedException {
         return this.kaiQueue.poll();
     }
 }

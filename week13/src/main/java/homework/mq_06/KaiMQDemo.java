@@ -4,8 +4,11 @@ import homework.mq_06.core.KaiBroker;
 import homework.mq_06.core.KaiConsumer;
 import homework.mq_06.core.KaiProducer;
 
+import java.io.IOException;
+import java.time.Instant;
+
 public class KaiMQDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         final KaiBroker kaiBroker = new KaiBroker();
         kaiBroker.createTopic("mq-test");
 
@@ -14,6 +17,25 @@ public class KaiMQDemo {
 
         KaiConsumer kaiConsumer = kaiBroker.createConsumer();
         kaiConsumer.subscribe("mq-test");
-        kaiConsumer.poll();
+
+        final boolean[] workingFlag = new boolean[1];
+        workingFlag[0] = true;
+        Thread thread = new Thread(() -> {
+            while (workingFlag[0]) {
+                try {
+                    System.out.println("Consumer consume messages: " + kaiConsumer.poll());
+                } catch (Exception e) {
+                    System.out.println("Consumer poll failed.");
+                }
+            }
+        });
+        thread.start();
+
+        kaiProducer.send("mq-test", "test002");
+        kaiProducer.send("mq-test", "test003");
+
+        Thread.sleep(5000L);
+
+        workingFlag[0] = false;
     }
 }

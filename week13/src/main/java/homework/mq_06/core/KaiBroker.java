@@ -8,7 +8,7 @@ public final class KaiBroker {
     private static final int CAPACITY = 10000;
 
     public void createTopic(String topicName) {
-        this.topicMap.putIfAbsent(topicName, new KaiQueue(topicName, CAPACITY));
+        this.topicMap.putIfAbsent(topicName, new KaiQueue(CAPACITY));
     }
 
     public KaiProducer createProducer() {
