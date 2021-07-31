@@ -9,6 +9,12 @@ public class KaiProducer {
     }
 
     public void send(String topicName, String message) {
-        this.kaiBroker.findTopic(topicName).send(message);
+        KaiQueue kaiQueue = this.kaiBroker.findTopic(topicName);
+        if (null == kaiQueue) {
+            System.out.println("Topic[" + topicName + "] not found");
+            return;
+        }
+
+        kaiQueue.send(message);
     }
 }

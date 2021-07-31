@@ -4,9 +4,6 @@ import homework.mq_06.core.KaiBroker;
 import homework.mq_06.core.KaiConsumer;
 import homework.mq_06.core.KaiProducer;
 
-import java.io.IOException;
-import java.time.Instant;
-
 public class KaiMQDemo {
     public static void main(String[] args) throws InterruptedException {
         final KaiBroker kaiBroker = new KaiBroker();
@@ -14,6 +11,7 @@ public class KaiMQDemo {
 
         KaiProducer kaiProducer = kaiBroker.createProducer();
         kaiProducer.send("mq-test", "test001");
+        kaiProducer.send("topic-not-found", "test001");
 
         KaiConsumer kaiConsumer = kaiBroker.createConsumer();
         kaiConsumer.subscribe("mq-test");

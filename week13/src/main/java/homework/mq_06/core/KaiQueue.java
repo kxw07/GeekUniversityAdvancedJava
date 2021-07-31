@@ -5,10 +5,10 @@ import java.util.concurrent.TimeUnit;
 
 public class KaiQueue {
 
-    private LinkedBlockingQueue<String> linkedBlockingQueue;
+    private final LinkedBlockingQueue<String> linkedBlockingQueue;
 
     public KaiQueue(int capacity) {
-        this.linkedBlockingQueue = new LinkedBlockingQueue(capacity);
+        this.linkedBlockingQueue = new LinkedBlockingQueue<>(capacity);
     }
 
     public void send(String message) {
