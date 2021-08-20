@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Priority: FATAL > ERROR > WARN >INFO > DEBUG -->
+<Configuration monitorInterval="60">
+    <properties>
+        <property name="LOG_HOME">./logs</property>
+        <property name="BASIC_PATTERN_LAYOUT">[%d{MM/dd HH:mm:ss:SSS}] [%p] [${hostName}] %m%n</property>
+    </properties>
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="${BASIC_PATTERN_LAYOUT}"/>
+        </Console>
+
+        <Kafka name="Kafka" topic="${kafka.topic}"  syncSend="false">
+            <PatternLayout pattern="${BASIC_PATTERN_LAYOUT}" />
+            <Property name="bootstrap.servers">127.0.0.1:9527</Property>
+            <Property name="max.block.ms">5000</Property>
+            <Property name="request.timeout.ms">3000</Property>
+            <Property name="linger.ms">1000</Property>
+        </Kafka>
+        <Async name="KafkaAsync">
+            <AppenderRef ref="Kafka" />
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <AsyncLogger name="WebInfoLogger" level="INFO">
+            <AppenderRef ref="KafkaAsync"/>
+        </AsyncLogger>
+
+        <root level="INFO">
+            <AppenderRef ref="STDOUT"/>
+        </root>
+    </Loggers>
+</Configuration>

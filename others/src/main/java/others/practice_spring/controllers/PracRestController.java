@@ -1,4 +1,4 @@
-package others.spring.controllers;
+package others.practice_spring.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
