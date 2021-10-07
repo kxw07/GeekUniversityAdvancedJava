@@ -1,9 +1,9 @@
-package others.practice_spring.controllers;
+package others.spring_practice.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import others.practice_spring.service.PracService;
+import others.spring_practice.service.PracService;
 
 @CrossOrigin
 @Controller

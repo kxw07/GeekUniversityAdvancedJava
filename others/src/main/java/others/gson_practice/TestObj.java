@@ -1,17 +1,27 @@
-package others.practice_spring.config;
+package others.gson_practice;
 
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.ToString;
 
-public class TestClassB {
+@ToString
+public class TestObj {
     private String name;
     private String value;
+
+    public TestObj() {
+
+    }
+
+    public TestObj(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
 
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
+        System.out.println("call setName");
         this.name = name;
     }
 
@@ -19,8 +29,8 @@ public class TestClassB {
         return value;
     }
 
-    @Value("${java.home}")
     public void setValue(String value) {
+        System.out.println("call setValue");
         this.value = value;
     }
 }

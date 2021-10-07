@@ -1,4 +1,4 @@
-package others.practice_spring.webflux;
+package others.spring_practice.webflux;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package others.practice_spring.webflux;
+package others.spring_practice.webflux;
 
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;

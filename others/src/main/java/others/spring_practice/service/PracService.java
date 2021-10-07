@@ -1,4 +1,4 @@
-package others.practice_spring.service;
+package others.spring_practice.service;
 
 import org.springframework.stereotype.Service;
 

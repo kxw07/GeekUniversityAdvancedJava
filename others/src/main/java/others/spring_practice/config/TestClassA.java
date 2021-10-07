@@ -1,4 +1,4 @@
-package others.practice_spring.config;
+package others.spring_practice.config;
 
 import lombok.Data;
 
