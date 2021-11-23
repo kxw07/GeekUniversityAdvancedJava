@@ -7,22 +7,22 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/kai")
-public class TestController {
+public class WebfluxController {
 
-    private final TestService testService;
+    private final WebfluxService webfluxService;
 
-    public TestController(TestService testService) {
-        this.testService = testService;
+    public WebfluxController(WebfluxService webfluxService) {
+        this.webfluxService = webfluxService;
     }
 
     @GetMapping("/mvc")
     public String getNormal() {
-        return testService.getNormal();
+        return webfluxService.getNormal();
     }
 
     @GetMapping("/webflux")
     public Mono<String> getWebFlux() {
-        return testService.getWebFlux();
+        return webfluxService.getWebFlux();
     }
 
 }

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class TestService {
+public class WebfluxService {
     public String getNormal() {
         return "Spring mvc";
     }
