@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.junit.Assert;
+import org.springframework.util.Assert;
 
 import java.util.concurrent.TimeUnit;
 
@@ -61,9 +61,9 @@ public class CaffeineMain {
                 .build();
 
         cache.put("key1", "value1");
-        Assert.assertEquals("value1", cache.getIfPresent("key1"));
+        Assert.isTrue("value1".equals(cache.getIfPresent("key1")), "value not equal");
 
         Thread.sleep(3000);
-        Assert.assertNull(cache.getIfPresent("key1"));
+        Assert.isNull(cache.getIfPresent("key1"), "value not null");
     }
 }

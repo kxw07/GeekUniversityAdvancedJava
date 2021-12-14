@@ -12,21 +12,21 @@
             <PatternLayout pattern="${BASIC_PATTERN_LAYOUT}"/>
         </Console>
 
-        <Kafka name="Kafka" topic="${kafka.topic}"  syncSend="false">
-            <PatternLayout pattern="${BASIC_PATTERN_LAYOUT}" />
-            <Property name="bootstrap.servers">127.0.0.1:9527</Property>
-            <Property name="max.block.ms">5000</Property>
-            <Property name="request.timeout.ms">3000</Property>
-            <Property name="linger.ms">1000</Property>
-        </Kafka>
-        <Async name="KafkaAsync">
-            <AppenderRef ref="Kafka" />
-        </Async>
+<!--        <Kafka name="Kafka" topic="${kafka.topic}"  syncSend="false">-->
+<!--            <PatternLayout pattern="${BASIC_PATTERN_LAYOUT}" />-->
+<!--            <Property name="bootstrap.servers">127.0.0.1:9527</Property>-->
+<!--            <Property name="max.block.ms">5000</Property>-->
+<!--            <Property name="request.timeout.ms">3000</Property>-->
+<!--            <Property name="linger.ms">1000</Property>-->
+<!--        </Kafka>-->
+<!--        <Async name="KafkaAsync">-->
+<!--            <AppenderRef ref="Kafka" />-->
+<!--        </Async>-->
     </Appenders>
 
     <Loggers>
         <AsyncLogger name="WebInfoLogger" level="INFO">
-            <AppenderRef ref="KafkaAsync"/>
+            <AppenderRef ref="STDOUT"/>
         </AsyncLogger>
 
         <root level="INFO">

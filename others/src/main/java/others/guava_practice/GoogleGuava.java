@@ -1,6 +1,5 @@
-package others.google_guava;
+package others.guava_practice;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
 
