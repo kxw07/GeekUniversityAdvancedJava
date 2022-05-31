@@ -24,11 +24,11 @@ public class KafkaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        messageProducer.send("AAA");
-        messageProducer.asyncSend("BBB");
-
-        messageProducer.send("Hello World");
-
-        messageProducer.send(new Greeting("Jack", "Good Morning"));
+//        messageProducer.send("AAA");
+//        messageProducer.asyncSend("BBB");
+//
+//        messageProducer.send("Hello World");
+//
+//        messageProducer.send(new Greeting("Jack", "Good Morning"));
     }
 }

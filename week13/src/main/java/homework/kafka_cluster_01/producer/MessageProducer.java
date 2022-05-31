@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import java.util.concurrent.ExecutionException;
+
 @Component
 public class MessageProducer {
 
@@ -17,8 +19,9 @@ public class MessageProducer {
     @Autowired
     private KafkaTemplate<String, Greeting> greetingKafkaTemplate;
 
-    public void send(String msg) {
-        kafkaTemplate.send("test-normal-msg", msg);
+    public void send(String msg) throws ExecutionException, InterruptedException {
+        ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send("test-normal-msg", msg);
+        future.get();
     }
 
     public void asyncSend(String msg) {
