@@ -38,7 +38,8 @@ public class HttpInboundServer {
             System.out.println("set options done");
 
             serverBootstrap.group(this.bossGroup, this.workerGroup).channel(NioServerSocketChannel.class)
-                    .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new HttpInboundInitializer(this.httpInboundHandler));
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new HttpInboundInitializer(this.httpInboundHandler));
 
             Channel ch = serverBootstrap.bind(port).sync().channel();
             System.out.println("Start Netty Server: http://127.0.0.1:" + port);

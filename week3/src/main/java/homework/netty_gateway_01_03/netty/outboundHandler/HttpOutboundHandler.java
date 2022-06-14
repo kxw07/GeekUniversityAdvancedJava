@@ -38,6 +38,11 @@ public class HttpOutboundHandler implements OutboundHandler {
         int cores = Runtime.getRuntime().availableProcessors();
         this.executorService = Executors.newFixedThreadPool(cores * 2);
 
+        httpClient = initHttpClient(cores);
+    }
+
+    private CloseableHttpAsyncClient initHttpClient(int cores) {
+        final CloseableHttpAsyncClient httpClient;
         IOReactorConfig ioConfig = IOReactorConfig.custom()
                 .setConnectTimeout(1000)
                 .setSoTimeout(1000)
@@ -52,6 +57,7 @@ public class HttpOutboundHandler implements OutboundHandler {
                 .build();
 
         httpClient.start();
+        return httpClient;
     }
 
     @Override
@@ -60,7 +66,6 @@ public class HttpOutboundHandler implements OutboundHandler {
     }
 
     private void handleRequest(FullHttpRequest fullHttpRequest, ChannelHandlerContext ctx) {
-        System.out.println("handleRequest, url:" + randomHttpEndpoint.getRandomEndpoint() + fullHttpRequest.uri());
         HttpGet httpGet = new HttpGet(randomHttpEndpoint.getRandomEndpoint() + fullHttpRequest.uri());
         httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_KEEP_ALIVE);
         httpGet.setHeader("proxy", "netty_proxy");
@@ -73,8 +78,6 @@ public class HttpOutboundHandler implements OutboundHandler {
                 } catch (Exception e) {
                     System.out.println("handleResponse error:" + e.getMessage());
                     e.printStackTrace();
-                } finally {
-
                 }
             }
 
@@ -110,13 +113,13 @@ public class HttpOutboundHandler implements OutboundHandler {
             fullHttpResponse = new DefaultFullHttpResponse(HTTP_1_1, NO_CONTENT);
         } finally {
             if (fullHttpRequest != null) {
-                if (!HttpUtil.isKeepAlive(fullHttpRequest)) {
-                    System.out.println("handleResponse is not keep alive");
-                    ctx.write(fullHttpResponse).addListener(ChannelFutureListener.CLOSE);
-                } else {
+                if (HttpUtil.isKeepAlive(fullHttpRequest)) {
                     System.out.println("handleResponse is keep alive");
-                    ctx.write(fullHttpResponse).addListener(ChannelFutureListener.CLOSE);
+                } else {
+                    System.out.println("handleResponse is not keep alive");
                 }
+
+                ctx.write(fullHttpResponse).addListener(ChannelFutureListener.CLOSE);
             }
             ctx.flush();
         }
