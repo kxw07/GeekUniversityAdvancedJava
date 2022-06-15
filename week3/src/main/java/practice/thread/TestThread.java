@@ -2,12 +2,19 @@ package practice.thread;
 
 public class TestThread {
     public static void main(String[] args) throws InterruptedException {
-        Runnable task = new Runnable(){
+
+        String a = "";
+        Runnable task = new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
-                    System.out.println("I'm Runnable");
+                    synchronized (a) {
+                        System.out.println("Runnable is sleeping");
+                        Thread.sleep(3000);
+                        System.out.println("Runnable is up");
+                        a.wait();
+                        System.out.println("Runnable finished");
+                    }
                 } catch (InterruptedException e) {
                     System.out.println("InterruptedException");
                     e.printStackTrace();
@@ -16,11 +23,18 @@ public class TestThread {
         };
 
         Thread thread = new Thread(task);
-        thread.setDaemon(true);
         thread.start();
 
-        thread.interrupt();
+        System.out.println("Main thread is sleeping");
+        Thread.sleep(1000);
+        System.out.println("Main thread is up");
 
-        thread.join();
+        synchronized (a) {
+            System.out.println("Ready to notify all");
+            a.notifyAll();
+        }
+
+//        thread.interrupt();
+//        thread.join();
     }
 }
