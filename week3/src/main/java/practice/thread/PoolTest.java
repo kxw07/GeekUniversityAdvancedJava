@@ -31,7 +31,7 @@ public class PoolTest {
             }
         };
 
-        final Future<String> futureWithDefaultValue = executorService.submit(task2, "finished");
+        final Future<String> futureWithDefaultValue = executorService.submit(task2, "Runnable default return value");
 
         try {
             System.out.println(futureWithDefaultValue.get());
@@ -40,6 +40,22 @@ public class PoolTest {
         }
 
         // case 3: callable can throw exception
+        final Callable<String> callableWithReturnValue = new Callable() {
+            @Override
+            public String call() {
+                return "callableWithReturnValue";
+            }
+        };
+
+        final Future<String> futureCallableWithReturnValue = executorService.submit(callableWithReturnValue);
+
+        try {
+            System.out.println(futureCallableWithReturnValue.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        // case 4: callable can throw exception
         final Callable<String> callableTask = new Callable() {
             @Override
             public String call() throws SelfException {
@@ -55,8 +71,8 @@ public class PoolTest {
             e.printStackTrace();
         }
 
-        // case 4: task will be executed after submit
-        // case 5: can use awaitTermination to trigger shutdownNow when task executed too long
+        // case 5: task will be executed after submit
+        // case 6: can use awaitTermination to trigger shutdownNow when task executed too long
         final Runnable pendingTask = new Runnable() {
             @Override
             public void run() {
@@ -83,7 +99,6 @@ public class PoolTest {
         System.out.println("before awaitTermination:" + new Date());
         while (!executorService.awaitTermination(3, TimeUnit.SECONDS)) {
             System.out.println("inside awaitTermination:" + new Date());
-            System.out.println("wait timeout needs to force shutdown pool");
             executorService.shutdownNow();
         }
     }
