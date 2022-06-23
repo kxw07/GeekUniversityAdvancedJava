@@ -1,6 +1,7 @@
 package practice.spring.aop;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import practice.spring.aop.iml.ISchool;
 import practice.spring.aop.obj.Klass;
@@ -8,7 +9,9 @@ import practice.spring.aop.obj.Student;
 
 public class SpringApp {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.prac.spring.aop.xml");
+        AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.week5.prac.spring.aop.xml");
+        applicationContext.registerShutdownHook();
+
         System.out.println("=======================");
         System.out.println("(Student) applicationContext.getBean(\"student001\")");
         Student student001 = (Student) applicationContext.getBean("student001");
