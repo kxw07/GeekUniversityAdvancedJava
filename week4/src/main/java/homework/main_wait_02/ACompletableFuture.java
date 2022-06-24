@@ -63,11 +63,11 @@ public class ACompletableFuture {
 
         // exception
         String result4 = CompletableFuture.supplyAsync(() -> {
-            if(true) {
+            if (true) {
                 throw new RuntimeException("exception test!");
             }
             return "Dummy value";
-        }).exceptionally( e -> {
+        }).exceptionally(e -> {
             System.out.println(e.getMessage());
             return "Value in exception";
         }).join();
