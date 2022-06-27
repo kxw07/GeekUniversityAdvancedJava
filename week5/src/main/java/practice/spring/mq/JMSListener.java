@@ -14,7 +14,7 @@ public class JMSListener implements MessageListener {
     public void onMessage(Message message) {
         ObjectMessage objectMessage = (ObjectMessage) message;
         try {
-            System.out.println(objectMessage.getObject());
+            System.out.println("JMSListener:" + objectMessage.getObject());
         } catch (JMSException e) {
             e.printStackTrace();
         }
